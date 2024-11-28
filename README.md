@@ -1,3 +1,3 @@
-# Domino-langchain4j
+# OpenNTF Domino LangChain4j Support
 
 TBD...

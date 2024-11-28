@@ -1,0 +1,227 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.openntf</groupId>
+    <artifactId>langchain4j-domino</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>OpenNTF LangChain4j for Domino</name>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Serdar Basegmez</name>
+            <url>https://lotusnotus.com</url>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>bundles/org.openntf.langchain4j.xsp/</module>
+        <module>bundles/org.openntf.langchain4j.commons</module>
+
+        <!--        <module>release/langchain4j-domino-dist/</module>-->
+        <!--        <module>release/langchain4j-domino-updatesite/</module>-->
+        <!--        <module>release/langchain4j-domino-updatesite-source/</module>-->
+    </modules>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <version-langchain4j>0.36.2</version-langchain4j>
+        <version-jnx>1.44.0</version-jnx>
+        <version-jsoup>1.18.1</version-jsoup>
+
+        <!-- For XSP packaging -->
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
+        <manifest-location>META-INF</manifest-location>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>artifactory.openntf.org</id>
+            <name>artifactory.openntf.org</name>
+            <url>https://artifactory.openntf.org/openntf</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>artifactory.openntf.org</id>
+            <name>artifactory.openntf.org</name>
+            <url>https://artifactory.openntf.org/openntf</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <!-- Langchain4j -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+            <version>${version-langchain4j}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-open-ai</artifactId>
+            <version>${version-langchain4j}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-embeddings</artifactId>
+            <version>${version-langchain4j}</version>
+        </dependency>
+
+        <!-- Integrations -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-ollama</artifactId>
+            <version>${version-langchain4j}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-chroma</artifactId>
+            <version>${version-langchain4j}</version>
+        </dependency>
+
+        <!-- Domino JNX -->
+        <dependency>
+            <groupId>com.hcl.domino</groupId>
+            <artifactId>domino-jnx-api-r14</artifactId>
+            <version>${version-jnx}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hcl.domino</groupId>
+            <artifactId>domino-jnx-commons-r14</artifactId>
+            <version>${version-jnx}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hcl.domino</groupId>
+            <artifactId>domino-jnx-jna-r14</artifactId>
+            <version>${version-jnx}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--            <plugin>-->
+            <!--                <groupId>com.mycila</groupId>-->
+            <!--                <artifactId>license-maven-plugin</artifactId>-->
+            <!--                <version>3.0</version>-->
+            <!--                <configuration>-->
+            <!--                    <aggregate>true</aggregate>-->
+            <!--                    <header>project/LicenseTemplate.txt</header>-->
+            <!--                    <excludes>-->
+            <!--                        <exclude>**/pom.xml</exclude>-->
+            <!--                        <exclude>**/README</exclude>-->
+            <!--                        <exclude>src/test/resources/**</exclude>-->
+            <!--                        <exclude>src/main/resources/**</exclude>-->
+            <!--                        <exclude>**/build.properties</exclude>-->
+            <!--                        <exclude>**/LICENSE.txt</exclude>-->
+            <!--                        <exclude>**/database.properties</exclude>-->
+            <!--                        <exclude>**/xspdesign.properties</exclude>-->
+            <!--                        <exclude>**/DQL.java</exclude>-->
+            <!--                        <exclude>**/odp/WebContent/WEB-INF/faces-config.xml</exclude>-->
+            <!--                        <exclude>**/odp/plugin.xml</exclude>-->
+            <!--                    </excludes>-->
+            <!--                    <properties>-->
+            <!--                        <owner>Serdar Basegmez</owner>-->
+            <!--                        <copyrightYear>2024</copyrightYear>-->
+            <!--                    </properties>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven-and-java</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.0.1</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>17</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M5</version>
+                    <configuration>
+                        <skip>true</skip>
+                        <trimStackTrace>false</trimStackTrace>
+                        <reuseForks>false</reuseForks>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

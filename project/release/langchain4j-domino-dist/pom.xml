@@ -4,14 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.openntf.langchain4j</groupId>
-        <artifactId>parent-domino-langchain4j</artifactId>
-        <version>1.0.0</version>
+        <groupId>org.openntf</groupId>
+        <artifactId>langchain4j-domino</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
+
+    <artifactId>langchain4j-domino-dist</artifactId>
+    <name>Distribution ZIP for langchain4j-domino</name>
     <packaging>pom</packaging>
 
-    <artifactId>domino-langchain4j-dist</artifactId>
-    <name>domino-langchain4j distribution ZIP</name>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>langchain4j-domino-updatesite</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -33,13 +43,13 @@
                                     <version>${project.version}</version>
                                     <label>Domino-langchain4j</label>
                                     <providerName>OpenNTF</providerName>
-                                    <description>OpenNTF Domino LangChain4j Support</description>
+                                    <description>OpenNTF LangChain4j for Domino</description>
                                     <copyright>2024 Serdar Basegmez</copyright>
                                     <license>Apache License 2.0</license>
                                     <generateSourceFeature>false</generateSourceFeature>
                                     <artifacts>
                                         <artifact>
-                                            <id>${project.groupId}:domino-langchain4j-xsp:${project.version}</id>
+                                            <id>${project.groupId}:langchain4j-domino-xsp:${project.version}</id>
                                             <transitive>false</transitive>
                                         </artifact>
                                     </artifacts>
