@@ -50,8 +50,14 @@
                 <version>5.1.9</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <manifestLocation>META-INF</manifestLocation>
-                    <excludeDependencies>false</excludeDependencies>
+					<manifestLocation>META-INF</manifestLocation>
+                    <niceManifest>true</niceManifest>
+                    <excludeDependencies>
+                        kotlin-stdlib-common,
+                        kotlin-stdlib-jdk7,
+                        kotlin-stdlib-jdk8,
+                        kotlin-stdlib
+                    </excludeDependencies>
                     <supportedProjectTypes>
                         <supportedProjectType>jar</supportedProjectType>
                         <supportedProjectType>bundle</supportedProjectType>
@@ -63,14 +69,16 @@
                         <Bundle-RequiredExecutionEnvironment>JavaSE-17</Bundle-RequiredExecutionEnvironment>
                         <Bundle-Activator>org.openntf.langchain4j.xsp.Activator</Bundle-Activator>
                         <Export-Package>
-                            org.openntf.langchain4j.*,
-                            dev.langchain4j.*
+                            org.openntf.langchain4j.xsp.*
                         </Export-Package>
+                        <_exportcontents>
+							dev.langchain4j.*
+						</_exportcontents>
                         <Require-Bundle>
                             com.ibm.xsp.core,
-                            com.hcl.domino.jnx.xsp
+                            com.hcl.domino.jnx.xsp,
+                            org.openntf.langchain4j.domino;visibility:=reexport
                         </Require-Bundle>
-<!--                        <Import-Package>!sun.misc,*</Import-Package>-->
                         <Import-Package>
                             org.osgi.framework
                         </Import-Package>
