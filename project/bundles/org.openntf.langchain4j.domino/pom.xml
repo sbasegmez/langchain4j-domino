@@ -10,8 +10,8 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>org.openntf.langchain4j.commons</artifactId>
-    <name>OpenNTF Langchain4j Commons</name>
+    <artifactId>org.openntf.langchain4j.domino</artifactId>
+    <name>OpenNTF Langchain4j Domino Library</name>
 
     <dependencies>
         <dependency>
@@ -23,6 +23,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.17.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.18.0</version>
         </dependency>
     </dependencies>
 </project>

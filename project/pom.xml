@@ -25,8 +25,8 @@
     </developers>
 
     <modules>
-        <module>bundles/org.openntf.langchain4j.xsp/</module>
-        <module>bundles/org.openntf.langchain4j.commons</module>
+        <module>bundles/org.openntf.langchain4j.domino</module>
+        <module>bundles/org.openntf.langchain4j.xsp</module>
 
         <!--        <module>release/langchain4j-domino-dist/</module>-->
         <!--        <module>release/langchain4j-domino-updatesite/</module>-->
@@ -47,7 +47,6 @@
         <!-- For XSP packaging -->
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
-        <manifest-location>META-INF</manifest-location>
     </properties>
 
     <repositories>
@@ -80,11 +79,11 @@
             <version>${version-langchain4j}</version>
         </dependency>
 
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-embeddings</artifactId>
-            <version>${version-langchain4j}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>dev.langchain4j</groupId>-->
+<!--            <artifactId>langchain4j-embeddings</artifactId>-->
+<!--            <version>${version-langchain4j}</version>-->
+<!--        </dependency>-->
 
         <!-- Integrations -->
         <dependency>
