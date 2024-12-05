@@ -121,33 +121,6 @@
 
 	<build>
 		<plugins>
-			<!--            <plugin>-->
-			<!--                <groupId>com.mycila</groupId>-->
-			<!--                <artifactId>license-maven-plugin</artifactId>-->
-			<!--                <version>3.0</version>-->
-			<!--                <configuration>-->
-			<!--                    <aggregate>true</aggregate>-->
-			<!--                    <header>project/LicenseTemplate.txt</header>-->
-			<!--                    <excludes>-->
-			<!--                        <exclude>**/pom.xml</exclude>-->
-			<!--                        <exclude>**/README</exclude>-->
-			<!--                        <exclude>src/test/resources/**</exclude>-->
-			<!--                        <exclude>src/main/resources/**</exclude>-->
-			<!--                        <exclude>**/build.properties</exclude>-->
-			<!--                        <exclude>**/LICENSE.txt</exclude>-->
-			<!--                        <exclude>**/database.properties</exclude>-->
-			<!--                        <exclude>**/xspdesign.properties</exclude>-->
-			<!--                        <exclude>**/DQL.java</exclude>-->
-			<!--
-			<exclude>**/odp/WebContent/WEB-INF/faces-config.xml</exclude>-->
-			<!--                        <exclude>**/odp/plugin.xml</exclude>-->
-			<!--                    </excludes>-->
-			<!--                    <properties>-->
-			<!--                        <owner>Serdar Basegmez</owner>-->
-			<!--                        <copyrightYear>2024</copyrightYear>-->
-			<!--                    </properties>-->
-			<!--                </configuration>-->
-			<!--            </plugin>-->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -250,4 +223,37 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>4.6</version>
+        <configuration>
+          <properties>
+            <owner>Serdar Basegmez</owner>
+            <copyrightYear>2025</copyrightYear>
+          </properties>
+          <licenseSets>
+            <licenseSet>
+              <header>LicenseTemplate.txt</header>
+              <excludes>
+                <exclude>**/pom.xml</exclude>
+                <exclude>**/README.*</exclude>
+                <exclude>src/test/resources/**</exclude>
+                <exclude>src/main/resources/**</exclude>
+                <exclude>**/build.properties</exclude>
+                <exclude>**/LICENSE.*</exclude>
+                <exclude>**/NOTICE.*</exclude>
+
+                <exclude>**/odp/**</exclude>
+                <exclude>docs/**</exclude>
+              </excludes>
+            </licenseSet>
+          </licenseSets>
+
+          <mapping>
+            <xsp-config>XML_STYLE</xsp-config>
+          </mapping>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
 </project>
