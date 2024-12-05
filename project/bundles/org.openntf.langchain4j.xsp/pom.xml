@@ -47,23 +47,11 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>6.0.0</version>
-                <extensions>true</extensions>
                 <configuration>
-					<manifestLocation>META-INF</manifestLocation>
-                    <niceManifest>true</niceManifest>
                     <excludeDependencies/>
-                    <dumpInstructions>${project.build.directory}/bnd/dumpInstructions.txt</dumpInstructions>
-                    <dumpClasspath>${project.build.directory}/bnd/dumpClasspath.txt</dumpClasspath>
-                    <supportedProjectTypes>
-                        <supportedProjectType>jar</supportedProjectType>
-                        <supportedProjectType>bundle</supportedProjectType>
-                    </supportedProjectTypes>
-                    <supportIncrementalBuild>true</supportIncrementalBuild>
                     <instructions>
                         <Automatic-Module-Name>org.openntf.langchain4j.xsp</Automatic-Module-Name>
                         <Bundle-SymbolicName>org.openntf.langchain4j.xsp;singleton:=true</Bundle-SymbolicName>
-                        <Bundle-RequiredExecutionEnvironment>JavaSE-17</Bundle-RequiredExecutionEnvironment>
                         <Bundle-Activator>org.openntf.langchain4j.xsp.Activator</Bundle-Activator>
                         <Export-Package>
                             org.openntf.langchain4j.xsp.*
@@ -72,9 +60,6 @@
 							dev.langchain4j.*,
 							org.openntf.langchain4j.domino.*
 						</_exportcontents>
-						<_dsannotations/>
-						<_metatypeannotations/>
-						<_cdiannotations/>
                         <Require-Bundle>
                             com.ibm.xsp.core,
                             com.hcl.domino.jnx.xsp
@@ -85,10 +70,6 @@
                         <Embed-Dependency>*;scope=compile</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <Embed-Directory>lib</Embed-Directory>
-
-                        <_removeheaders>Require-Capability</_removeheaders>
-
-                        <_snapshot>${osgi.qualifier}</_snapshot>
                     </instructions>
                 </configuration>
             </plugin>
