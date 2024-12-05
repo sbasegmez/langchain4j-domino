@@ -99,6 +99,12 @@
 			<version>${version-langchain4j}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-milvus</artifactId>
+			<version>${version-langchain4j}</version>
+		</dependency>
+
 		<!-- Domino JNX -->
 		<dependency>
 			<groupId>com.hcl.domino</groupId>
@@ -118,6 +124,24 @@
 			<version>${version-jnx}</version>
 		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Milvus causes warning to load an older version of this dependency -->
+			<dependency>
+				<groupId>org.apache.yetus</groupId>
+				<artifactId>audience-annotations</artifactId>
+				<version>0.13.0</version>
+			</dependency>
+			
+			<!-- dnsjava 2.1.7 comes from Hadoop and has classes in the root -->
+			<dependency>
+				<groupId>dnsjava</groupId>
+				<artifactId>dnsjava</artifactId>
+				<version>3.6.1</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>
