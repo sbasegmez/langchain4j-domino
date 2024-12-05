@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: XSP Library for langchain4j-domino
+Bundle-SymbolicName: org.openntf.langchain4j.xsp;singleton:=true
+Automatic-Module-Name: org.openntf.langchain4j.xsp
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.openntf.langchain4j.xsp.Activator
+Bundle-Vendor: OpenNTF
+Bundle-Version: 1.0.0.qualifier
+Import-Package: org.osgi.framework;version="[1.8,2)"
+Require-Bundle: 
+ com.ibm.xsp.core,
+ com.hcl.domino.jnx.xsp,
+ org.openntf.langchain4j.dependencies;visibility:=reexport
+Bundle-RequiredExecutionEnvironment: JavaSE-17
