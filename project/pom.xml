@@ -47,6 +47,7 @@
         <module>bundles/org.openntf.langchain4j.domino</module>
         <module>bundles/org.openntf.langchain4j.dependencies</module>
         <module>bundles/org.openntf.langchain4j.xsp</module>
+        <module>bundles/org.openntf.langchain4j.ext.embedding</module>
 
         <!--        <module>release/langchain4j-domino-dist/</module>-->
         <!--        <module>release/langchain4j-domino-updatesite/</module>-->

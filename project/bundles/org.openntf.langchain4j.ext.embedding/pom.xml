@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openntf</groupId>
+        <artifactId>langchain4j-domino</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>org.openntf.langchain4j.ext.embedding</artifactId>
+    <packaging>bundle</packaging>
+
+    <name>Langchain4j Domino extension: Embedding</name>
+
+    <dependencies>
+        <!-- Langchain4j Extensions-->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-embeddings</artifactId>
+            <version>${langchain4j.version}</version>
+        </dependency>
+
+        <!-- Domino Platform -->
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-mail</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openntf.xsp.stubs</groupId>
+            <artifactId>com.ibm.xsp.core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.framework</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <excludeDependencies/>
+                    <instructions>
+                        <Automatic-Module-Name>${project.artifactId}</Automatic-Module-Name>
+                        <Bundle-SymbolicName>${project.artifactId};singleton:=true</Bundle-SymbolicName>
+                        <Export-Package>
+                            org.openntf.langchain4j.ext.*
+                        </Export-Package>
+                        <_exportcontents>
+                            dev.langchain4j.*
+                        </_exportcontents>
+                        <Require-Bundle>
+                            com.ibm.xsp.core,
+                            org.openntf.langchain4j.xsp
+                        </Require-Bundle>
+                        <Import-Package>
+                            org.osgi.framework
+                        </Import-Package>
+                        <Embed-Dependency>langchain4j-embeddings</Embed-Dependency>
+                        <Embed-Transitive>true</Embed-Transitive>
+                        <Embed-Directory>lib</Embed-Directory>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
