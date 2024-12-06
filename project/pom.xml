@@ -59,9 +59,6 @@
             <dumpInstructions>${project.build.directory}/bnd/instructions.txt</dumpInstructions>
             <instructions>
               <Bundle-RequiredExecutionEnvironment>JavaSE-17</Bundle-RequiredExecutionEnvironment>
-              <_cdiannotations/>
-              <_dsannotations/>
-              <_metatypeannotations/>
               <_removeheaders>Require-Capability</_removeheaders>
               <_snapshot>${osgi.qualifier}</_snapshot>
             </instructions>

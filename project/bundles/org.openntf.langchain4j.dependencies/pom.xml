@@ -23,6 +23,7 @@
               dev.langchain4j.*,
               org.openntf.langchain4j.*
             </_exportcontents>
+            <_bundleannotations/>
           </instructions>
         </configuration>
         <groupId>org.apache.felix</groupId>
