@@ -13,7 +13,8 @@
     <artifactId>org.openntf.langchain4j.dependencies</artifactId>
     <packaging>bundle</packaging>
 
-    <name>Dependencies for Langchain4j Domino</name>
+    <name>Langchain4j Domino base dependencies</name>
+    <description>Base dependencies for all Langchain4j Domino modules.</description>
 
     <dependencies>
         <dependency>
