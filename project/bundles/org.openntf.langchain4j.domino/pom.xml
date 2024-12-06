@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <artifactId>org.openntf.langchain4j.domino</artifactId>
-  <dependencies>
-    <dependency>
-      <artifactId>jsoup</artifactId>
-      <groupId>org.jsoup</groupId>
-      <version>1.18.1</version>
-    </dependency>
-    <dependency>
-      <artifactId>commons-lang3</artifactId>
-      <groupId>org.apache.commons</groupId>
-      <version>3.17.0</version>
-    </dependency>
-    <dependency>
-      <artifactId>commons-io</artifactId>
-      <groupId>commons-io</groupId>
-      <version>2.18.0</version>
-    </dependency>
-  </dependencies>
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <modelVersion>4.0.0</modelVersion>
-  <name>OpenNTF Langchain4j Domino Library</name>
+    <parent>
+        <groupId>org.openntf</groupId>
+        <artifactId>langchain4j-domino</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
 
-  <parent>
-    <artifactId>langchain4j-domino</artifactId>
-    <groupId>org.openntf</groupId>
-    <relativePath>../../pom.xml</relativePath>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
+    <artifactId>org.openntf.langchain4j.domino</artifactId>
+    <packaging>jar</packaging>
+
+    <name>OpenNTF Langchain4j Domino Library</name>
+    <description>External Library dependencies for Langchain4j Domino XSP Library</description>
+
+    <dependencies>
+        <!-- TODO Do we need this? -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+        </dependency>
+
+        <!-- TODO: Remove these dependencies -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
