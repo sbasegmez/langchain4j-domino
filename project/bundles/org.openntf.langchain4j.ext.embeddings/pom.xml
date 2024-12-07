@@ -10,16 +10,22 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>org.openntf.langchain4j.ext.embedding</artifactId>
+    <artifactId>org.openntf.langchain4j.ext.embeddings</artifactId>
     <packaging>bundle</packaging>
 
-    <name>Langchain4j Domino extension: Embedding</name>
+    <name>Langchain4j Domino extension: Embeddings</name>
 
     <dependencies>
         <!-- Langchain4j Extensions-->
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-embeddings</artifactId>
+            <version>${langchain4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-embeddings-all-minilm-l6-v2</artifactId>
             <version>${langchain4j.version}</version>
         </dependency>
 
@@ -59,12 +65,16 @@
                         </_exportcontents>
                         <Require-Bundle>
                             com.ibm.xsp.core,
+                            com.ibm.commons,
                             org.openntf.langchain4j.xsp
                         </Require-Bundle>
                         <Import-Package>
                             org.osgi.framework
                         </Import-Package>
-                        <Embed-Dependency>langchain4j-embeddings</Embed-Dependency>
+                        <Embed-Dependency>
+                            langchain4j-embeddings,
+                            langchain4j-embeddings-all-minilm-l6-v2
+                        </Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <Embed-Directory>lib</Embed-Directory>
                     </instructions>

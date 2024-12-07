@@ -21,7 +21,7 @@
     <extension
         point="com.ibm.commons.Extension">
         <service
-            class="org.openntf.langchain4j.ext.embedding.LcExtLibrary"
+            class="org.openntf.langchain4j.ext.embeddings.LcExtLibrary"
             type="com.ibm.xsp.Library">
         </service>
     </extension>
