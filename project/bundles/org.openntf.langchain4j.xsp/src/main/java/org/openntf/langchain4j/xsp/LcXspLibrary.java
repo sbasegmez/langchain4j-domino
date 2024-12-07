@@ -23,14 +23,12 @@ public class LcXspLibrary extends AbstractXspLibrary {
     }
 
     public String getLibraryId() {
-        return Activator.class.getPackage()
-                              .getName() + ".library";
+        return getClass().getPackage().getName();
     }
 
     @Override
     public String getPluginId() {
-        return Activator.class.getPackage()
-                              .getName();
+        return getClass().getPackage().getName();
     }
 
     @Override

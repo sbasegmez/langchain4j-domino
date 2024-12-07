@@ -10,6 +10,7 @@ Bundle-Version: 1.0.0.qualifier
 Import-Package: org.osgi.framework;version="[1.8,2)"
 Require-Bundle: 
  com.ibm.xsp.core,
+ com.ibm.commons,
  com.hcl.domino.jnx.xsp,
  org.openntf.langchain4j.dependencies;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-17
