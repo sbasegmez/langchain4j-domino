@@ -13,7 +13,7 @@
 
     <artifactId>org.openntf.langchain4j.xsp</artifactId>
     <packaging>jar</packaging>
-    <name>Langchain4j-domino XSP Library</name>
+    <name>Langchain4j Domino XSP Library</name>
 
     <dependencies>
         <!-- Project Dependencies -->

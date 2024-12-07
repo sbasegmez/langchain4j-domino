@@ -36,6 +36,9 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 
+        <copyright-names>Serdar Basegmez</copyright-names>
+        <copyright-year>2025</copyright-year>
+
         <jnx.version>1.44.0</jnx.version>
         <langchain4j.version>0.36.2</langchain4j.version>
         <jsoup.version>1.18.1</jsoup.version>
@@ -45,13 +48,11 @@
 
     <modules>
         <module>bundles/org.openntf.langchain4j.domino</module>
+
         <module>bundles/org.openntf.langchain4j.dependencies</module>
         <module>bundles/org.openntf.langchain4j.xsp</module>
         <module>bundles/org.openntf.langchain4j.ext.embedding</module>
 
-        <!--        <module>release/langchain4j-domino-dist/</module>-->
-        <!--        <module>release/langchain4j-domino-updatesite/</module>-->
-        <!--        <module>release/langchain4j-domino-updatesite-source/</module>-->
     </modules>
 
     <repositories>
@@ -238,8 +239,8 @@
                 <version>4.6</version>
                 <configuration>
                     <properties>
-                        <copyrightYear>2025</copyrightYear>
-                        <owner>Serdar Basegmez</owner>
+                        <copyrightYear>${copyright-year}</copyrightYear>
+                        <owner>${copyright-names}</owner>
                     </properties>
                     <aggregate>true</aggregate>
                     <licenseSets>

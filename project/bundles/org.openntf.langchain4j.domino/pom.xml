@@ -14,8 +14,8 @@
     <artifactId>org.openntf.langchain4j.domino</artifactId>
     <packaging>jar</packaging>
 
-    <name>OpenNTF Langchain4j Domino Library</name>
-    <description>External Library dependencies for Langchain4j Domino XSP Library</description>
+    <name>Langchain4j Domino Core Library</name>
+    <description>Domino implementations for some of core Langchain4j classes</description>
 
     <dependencies>
         <!-- TODO Do we need this? -->
