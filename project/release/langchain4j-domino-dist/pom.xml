@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.openntf</groupId>
         <artifactId>langchain4j-domino</artifactId>
@@ -11,45 +12,70 @@
     </parent>
 
     <artifactId>langchain4j-domino-dist</artifactId>
-    <name>Distribution ZIP for langchain4j-domino</name>
+    <name>Langchain4j Domino - Distribution ZIP</name>
     <packaging>pom</packaging>
-
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>langchain4j-domino-updatesite</artifactId>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.reficio</groupId>
+                <groupId>org.openntf.maven</groupId>
                 <artifactId>p2-maven-plugin</artifactId>
-                <version>1.3.0</version>
                 <executions>
                     <execution>
                         <id>generate-site</id>
-                        <phase>prepare-package</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>site</goal>
                         </goals>
                         <configuration>
                             <featureDefinitions>
                                 <feature>
-                                    <id>org.openntf.langchain4j.feature</id>
+                                    <id>org.openntf.langchain4j.xsp.feature</id>
+                                    <label>OpenNTF Langchain4j for Domino</label>
                                     <version>${project.version}</version>
-                                    <label>Domino-langchain4j</label>
+                                    <description>Langchain4j and Domino XPages integration feature</description>
                                     <providerName>OpenNTF</providerName>
-                                    <description>OpenNTF LangChain4j for Domino</description>
-                                    <copyright>2024 Serdar Basegmez</copyright>
                                     <license>Apache License 2.0</license>
-                                    <generateSourceFeature>false</generateSourceFeature>
+                                    <copyright>#{copyright-year} #{copyright-names}</copyright>
+                                    <generateSourceFeature>true</generateSourceFeature>
                                     <artifacts>
                                         <artifact>
-                                            <id>${project.groupId}:langchain4j-domino-xsp:${project.version}</id>
+                                            <id>${project.groupId}:org.openntf.langchain4j.xsp:${project.version}</id>
+                                            <source>true</source>
+                                            <transitive>false</transitive>
+                                        </artifact>
+                                        <artifact>
+                                            <id>
+                                                ${project.groupId}:org.openntf.langchain4j.dependencies:${project.version}
+                                            </id>
+                                            <source>true</source>
+                                            <transitive>false</transitive>
+                                        </artifact>
+                                        <artifact>
+                                            <id>
+                                                jakarta.mail:jakarta.mail-api:2.1.3
+                                            </id>
+                                        </artifact>
+                                        <artifact>
+                                            <id>
+                                                org.eclipse.angus:angus-mail:2.0.3
+                                            </id>
+                                        </artifact>
+                                    </artifacts>
+                                </feature>
+                                <feature>
+                                    <id>org.openntf.langchain4j.ext.embedding.feature</id>
+                                    <label>OpenNTF Langchain4j Domino Extension for Embeddings</label>
+                                    <version>${project.version}</version>
+                                    <description>Langchain4j and Domino Extension for Embedding feature</description>
+                                    <providerName>OpenNTF</providerName>
+                                    <license>Apache License 2.0</license>
+                                    <copyright>#{copyright-year} #{copyright-names}</copyright>
+                                    <artifacts>
+                                        <artifact>
+                                            <id>
+                                                ${project.groupId}:org.openntf.langchain4j.ext.embedding:${project.version}
+                                            </id>
                                             <transitive>false</transitive>
                                         </artifact>
                                     </artifacts>
@@ -62,20 +88,18 @@
             <plugin>
                 <groupId>org.darwino</groupId>
                 <artifactId>p2sitexml-maven-plugin</artifactId>
-                <version>1.3.0</version>
                 <executions>
                     <execution>
-                        <phase>prepare-package</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>generate-site-xml</goal>
                         </goals>
                         <configuration>
-                            <category>Domino-langchain4j</category>
+                            <category>Langchain4j for Domino</category>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
