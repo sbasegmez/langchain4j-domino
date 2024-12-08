@@ -22,11 +22,6 @@
             <artifactId>org.openntf.langchain4j.domino</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>org.openntf.langchain4j.dependencies</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <!-- Domino Platform -->
         <dependency>

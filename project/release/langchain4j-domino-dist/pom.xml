@@ -42,14 +42,13 @@
                                         <artifact>
                                             <id>${project.groupId}:org.openntf.langchain4j.xsp:${project.version}</id>
                                             <source>true</source>
-                                            <transitive>false</transitive>
+                                            <transitive>true</transitive>
                                         </artifact>
                                         <artifact>
-                                            <id>
-                                                ${project.groupId}:org.openntf.langchain4j.dependencies:${project.version}
+                                            <id>${project.groupId}:org.openntf.langchain4j.domino:${project.version}
                                             </id>
                                             <source>true</source>
-                                            <transitive>false</transitive>
+                                            <transitive>true</transitive>
                                         </artifact>
                                         <artifact>
                                             <id>

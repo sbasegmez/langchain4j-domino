@@ -49,7 +49,6 @@
     <modules>
         <module>bundles/org.openntf.langchain4j.domino</module>
 
-        <module>bundles/org.openntf.langchain4j.dependencies</module>
         <module>bundles/org.openntf.langchain4j.xsp</module>
         <module>bundles/org.openntf.langchain4j.ext.embeddings</module>
 
@@ -103,6 +102,15 @@
                 <groupId>org.eclipse.angus</groupId>
                 <artifactId>angus-mail</artifactId>
                 <version>2.0.3</version>
+            </dependency>
+
+            <!-- Package bumps for dependency issues -->
+
+            <!-- Qdrant deps-->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>3.25.5</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
