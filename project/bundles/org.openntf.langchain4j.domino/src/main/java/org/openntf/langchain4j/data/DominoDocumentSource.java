@@ -1,4 +1,21 @@
+/*
+ * Copyright (c) ${project.inceptionYear}-2025 Serdar Basegmez
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.openntf.langchain4j.data;
+
+import static dev.langchain4j.internal.ValidationUtils.ensureNotNull;
 
 import com.hcl.domino.DominoClient;
 import com.hcl.domino.commons.json.JsonUtil;
@@ -9,10 +26,6 @@ import com.hcl.domino.mime.MimeData;
 import com.hcl.domino.richtext.RichTextRecordList;
 import dev.langchain4j.data.document.DocumentSource;
 import dev.langchain4j.data.document.Metadata;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -20,8 +33,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
-import static dev.langchain4j.internal.ValidationUtils.ensureNotNull;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
 
 public class DominoDocumentSource implements DocumentSource {
 
@@ -47,7 +61,7 @@ public class DominoDocumentSource implements DocumentSource {
 
     @Override
     public InputStream inputStream() throws IOException {
-        try{
+        try {
             String textValue = extractText(dominoDocument, fieldName);
             return IOUtils.toInputStream(textValue, StandardCharsets.UTF_8);
         } catch (Exception e) {
@@ -69,7 +83,7 @@ public class DominoDocumentSource implements DocumentSource {
         metadata.put(META_LASTMODIFIEDINFILE, JsonUtil.toIsoString(document.getModifiedInThisFile()));
 
         // TODO: Only text fields supported as this point
-        for(String fieldName : metadataFields) {
+        for (String fieldName : metadataFields) {
             metadata.put(fieldName, document.getAsText(fieldName, ';'));
         }
 
@@ -79,26 +93,33 @@ public class DominoDocumentSource implements DocumentSource {
 
         Optional<Item> item = doc.getFirstItem(fieldName);
 
-        if(item.isPresent()) {
-            switch (item.get().getType()) {
+        if (item.isPresent()) {
+            switch (item.get()
+                        .getType()) {
                 case TYPE_COMPOSITE: // RichText
-                    RichTextRecordList rtl = item.get().getValueRichText();
+                    RichTextRecordList rtl = item.get()
+                                                 .getValueRichText();
                     return rtl.extractText();
+
                 case TYPE_MIME_PART: // MIME
                     MimeData mimeData = doc.get("Details", MimeData.class, null);
 
                     if (null != mimeData) {
                         String textData = mimeData.getPlainText();
-                        if(StringUtils.isNotEmpty(textData)) {
+                        if (StringUtils.isNotEmpty(textData)) {
                             return textData;
                         }
 
-                        textData = Jsoup.parseBodyFragment(mimeData.getHtml()).text();
+                        textData = Jsoup.parseBodyFragment(mimeData.getHtml())
+                                        .text();
                         return textData;
                     }
                     break;
+
                 default:
-                    return item.get().getAsText(' ');
+                    return item.get()
+                               .getAsText(' ');
+
             }
         }
 
@@ -197,11 +218,11 @@ public class DominoDocumentSource implements DocumentSource {
                 // More options to find the document might be implemented
                 if (StringUtils.isNotEmpty(documentUniqueId)) {
                     optionalDocument = database.getDocumentByUNID(documentUniqueId);
-                } else if (noteId!=null) {
+                } else if (noteId != null) {
                     optionalDocument = database.getDocumentById(noteId);
                 }
 
-                if(optionalDocument.isPresent()) {
+                if (optionalDocument.isPresent()) {
                     return new DominoDocumentSource(optionalDocument.get(), fieldName, this.metadataFields);
                 }
             }

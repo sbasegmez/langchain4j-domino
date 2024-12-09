@@ -162,6 +162,7 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <version>${license-maven-plugin.version}</version>
                 <configuration>
+                    <aggregate>true</aggregate>
                     <properties>
                         <owner>Serdar Basegmez</owner>
                         <copyrightYear>2025</copyrightYear>
@@ -187,7 +188,6 @@
                     <mapping>
                         <xsp-config>XML_STYLE</xsp-config>
                     </mapping>
-                    <aggregate>true</aggregate>
                 </configuration>
             </plugin>
 

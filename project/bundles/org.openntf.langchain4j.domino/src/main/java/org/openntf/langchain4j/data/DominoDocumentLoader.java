@@ -1,16 +1,39 @@
+/*
+ * Copyright (c) ${project.inceptionYear}-2025 Serdar Basegmez
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.openntf.langchain4j.data;
+
+import static dev.langchain4j.internal.ValidationUtils.ensureNotNull;
 
 import com.hcl.domino.data.CollectionEntry;
 import com.hcl.domino.data.Database;
-import dev.langchain4j.data.document.*;
+import dev.langchain4j.data.document.BlankDocumentException;
+import dev.langchain4j.data.document.Document;
+import dev.langchain4j.data.document.DocumentLoader;
+import dev.langchain4j.data.document.DocumentParser;
+import dev.langchain4j.data.document.DocumentSource;
 import dev.langchain4j.data.document.parser.TextDocumentParser;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static dev.langchain4j.internal.ValidationUtils.ensureNotNull;
+import org.apache.commons.lang3.StringUtils;
 
 public class DominoDocumentLoader {
 
@@ -155,7 +178,7 @@ public class DominoDocumentLoader {
     private static Optional<Document> parseSource(DocumentSource source, DocumentParser documentParser) {
         try {
             return Optional.of(DocumentLoader.load(source, documentParser));
-        } catch(BlankDocumentException e) {
+        } catch (BlankDocumentException e) {
             logger.log(Level.WARNING, "Blank document found, skipping...");
         }
 
