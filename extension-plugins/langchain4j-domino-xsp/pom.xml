@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- The parent of all XSP plugins are the same. We will use Tycho and aggregation for plugins. -->
+    <parent>
+        <groupId>org.openntf.langchain4j-domino</groupId>
+        <artifactId>langchain4j-domino-xsp-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>        
+    </parent>
+
+    <!-- We use BSN as the artifactId. Ugly but makes things easier. -->
+    <artifactId>org.openntf.langchain4j.xsp</artifactId>
+    <name>Langchain4j for Domino - Base XSP Library</name>
+    <packaging>eclipse-plugin</packaging>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>langchain4j-domino</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Langchain4j libraries to reexport -->
+        <dependency>
+           <groupId>dev.langchain4j</groupId>
+           <artifactId>langchain4j</artifactId>
+        </dependency>
+
+        <dependency>
+           <groupId>dev.langchain4j</groupId>
+           <artifactId>langchain4j-open-ai</artifactId>
+        </dependency>
+
+        <!-- Langchain4j Integrations to reexport -->
+        <!--<dependency>-->
+        <!--    <groupId>dev.langchain4j</groupId>-->
+        <!--    <artifactId>langchain4j-ollama</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--    <groupId>dev.langchain4j</groupId>-->
+        <!--    <artifactId>langchain4j-chroma</artifactId>-->
+        <!--</dependency>-->
+
+        <!-- Domino JNX -->
+        <!-- We don't use these yet -->
+        <dependency>
+           <groupId>com.hcl.domino</groupId>
+           <artifactId>domino-jnx-api-r14</artifactId>
+        </dependency>
+        <dependency>
+           <groupId>com.hcl.domino</groupId>
+           <artifactId>domino-jnx-commons-r14</artifactId>
+        </dependency>
+        <dependency>
+           <groupId>com.hcl.domino</groupId>
+           <artifactId>domino-jnx-jna-r14</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

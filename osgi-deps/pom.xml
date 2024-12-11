@@ -3,9 +3,17 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
     xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.openntf.langchain4j</groupId>
+
+    <!-- Pull baseline settings from the parent. No need for aggregation -->
+    <parent>
+        <groupId>org.openntf.langchain4j-domino</groupId>
+        <artifactId>baseline</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../baseline/pom.xml</relativePath>        
+    </parent>
+
     <artifactId>osgi-deps</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <!-- Skip version: It's OK to inherit baseline version -->
 
     <description>
         Modified from https://github.com/OpenNTF/org.openntf.xsp.jakartaee/blob/develop/osgi-deps/pom.xml
@@ -17,11 +25,12 @@
     <packaging>pom</packaging>
 
     <repositories>
+        <!-- We use Eclipse Neon because we need specific libraries at specific versions -->
         <repository>
             <id>eclipse-platform</id>
-            <!--<url>https://download.eclipse.org/releases/neon/201612211000</url>-->
-            <!-- Using a mirror while download.eclipse.org is down -->
-            <url>https://mirror.umd.edu/eclipse/releases/oxygen/201706281000/</url>
+            <!-- Using a mirror if download.eclipse.org is down -->
+            <!--<url>https://mirror.umd.edu/eclipse/releases/oxygen/201706281000/</url>-->
+            <url>https://download.eclipse.org/releases/neon/201612211000</url>
             <layout>p2</layout>
         </repository>
         <repository>
@@ -38,25 +47,21 @@
         </pluginRepository>
     </pluginRepositories>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-        <osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
-
-        <langchain4j.version>0.36.2</langchain4j.version>
-        <domino-jnx.version>1.44.0</domino-jnx.version>
-        <jsoup.version>1.18.1</jsoup.version>
-        <openntf-p2-plugin.version>3.1.2</openntf-p2-plugin.version>
-        <maven-enforcer.version>3.1.0</maven-enforcer.version>
-    </properties>
-
     <build>
         <plugins>
+            <!-- Skip install: This is for our own development use -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <!-- Generate osgi-deps p2 site. -->
             <plugin>
                 <groupId>org.openntf.maven</groupId>
                 <artifactId>p2-maven-plugin</artifactId>
-                <version>${openntf-p2-plugin.version}</version>
-                <extensions>true</extensions>
 
                 <executions>
                     <execution>
@@ -68,6 +73,7 @@
                         <configuration>
                             <p2>
                                 <!-- Testing Runtime -->
+                                <!-- TODO: Investigate why specific versions are so important. -->
                                 <artifact>
                                     <id>org.junit:4.12.0.v201504281640</id>
                                     <source>true</source>
@@ -141,13 +147,13 @@
                                 </artifact>
 
                                 <artifact>
-                                    <id>com.sun.xml.bind:jaxb-impl:3.0.0</id>
+                                    <id>com.sun.xml.bind:jaxb-impl:${sun-jaxb-impl.version}</id>
                                 </artifact>
                                 <artifact>
-                                    <id>com.sun.activation:jakarta.activation:2.0.1</id>
+                                    <id>com.sun.activation:jakarta.activation:${sun-jakarta-acivation.version}</id>
                                 </artifact>
                                 <artifact>
-                                    <id>org.eclipse.angus:angus-mail:2.0.3</id>
+                                    <id>org.eclipse.angus:angus-mail:${angus-mail.version}</id>
                                 </artifact>
 
                                 <artifact>
@@ -162,25 +168,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>${maven-enforcer.version}</version>
-                <executions>
-                    <execution>
-                        <id>enforce-maven-and-java</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.0.1</version>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>17</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

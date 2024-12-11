@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Pull baseline settings from the parent. No need for aggregation -->
+    <parent>
+        <groupId>org.openntf.langchain4j-domino</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../parent/pom.xml</relativePath>        
+    </parent>
+
+    <artifactId>updatesite-xsp</artifactId>
+    <name>Langchain4j Domino - Distribution ZIP</name>
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>p2-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <featureDefinitions>
+                                <feature>
+                                    <artifacts>
+                                        <artifact>
+                                            <id>${project.groupId}:${project.artifactId}:${project.version}</id>
+                                            <transitive>false</transitive>
+                                        </artifact>
+                                        <artifact>
+                                            <id>jakarta.mail:jakarta.mail-api:${jakarta-mail.version}</id>
+                                        </artifact>
+                                        <artifact>
+                                            <id>org.eclipse.angus:angus-mail:${angus-mail.version}</id>
+                                        </artifact>
+                                    </artifacts>
+                                    <copyright>2024 Serdar Basegmez</copyright>
+                                    <description>Langchain4j and Domino XPages integration plugin</description>
+                                    <id>org.openntf.langchain4j.xsp.feature</id>
+                                    <label>OpenNTF Langchain4j for Domino</label>
+                                    <license>Apache License 2.0</license>
+                                    <providerName>OpenNTF</providerName>
+                                    <version>${project.version}</version>
+                                </feature>
+                            </featureDefinitions>
+                        </configuration>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <id>generate-site</id>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <groupId>org.openntf.maven</groupId>
+            </plugin>
+            <plugin>
+                <artifactId>p2sitexml-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <category>Langchain4j for Domino</category>
+                        </configuration>
+                        <goals>
+                            <goal>generate-site-xml</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <groupId>org.darwino</groupId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                    <finalName>domino-langchain4j-${project.version}</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <basedir>../../</basedir>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
