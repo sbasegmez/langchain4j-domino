@@ -20,11 +20,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <!-- XSP plugins -->
-        <module>langchain4j-domino-xsp</module>
-
-        <!-- Update site(s) -->
-        <!-- <module>updatesite</module> -->
+        <module>xsp-plugin-base</module>
+        <module>feature-base</module>
+        <module>updatesite</module>
     </modules>
 
     <properties>
