@@ -2,7 +2,20 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="http://maven.apache.org/POM/4.0.0"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>langchain4j-domino-dist</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Pull baseline settings from the parent. No need for aggregation -->
+    <parent>
+        <groupId>org.openntf.langchain4j-domino</groupId>
+        <artifactId>baseline</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../baseline/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>updatesite-xsp</artifactId>
+    <name>Langchain4j Domino - Distribution ZIP</name>
+    <packaging>pom</packaging>
+
     <build>
         <plugins>
             <plugin>
@@ -63,7 +76,7 @@
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
                     <descriptors>
-                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                        <descriptor>assembly.xml</descriptor>
                     </descriptors>
                     <finalName>domino-langchain4j-${project.version}</finalName>
                 </configuration>
@@ -78,18 +91,13 @@
                 </executions>
                 <groupId>org.apache.maven.plugins</groupId>
             </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <basedir>../../</basedir>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-    <modelVersion>4.0.0</modelVersion>
-    <name>Langchain4j Domino - Distribution ZIP</name>
-    <packaging>pom</packaging>
-
-    <parent>
-        <artifactId>langchain4j-domino-parent</artifactId>
-        <groupId>org.openntf</groupId>
-        <relativePath>../../pom.xml</relativePath>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-
 </project>

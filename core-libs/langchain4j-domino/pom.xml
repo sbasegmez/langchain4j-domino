@@ -3,16 +3,18 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- Pull baseline settings from the parent. No need for aggregation -->
     <parent>
-        <groupId>org.openntf</groupId>
-        <artifactId>langchain4j-domino-parent</artifactId>
+        <groupId>org.openntf.langchain4j-domino</groupId>
+        <artifactId>baseline</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../../baseline/pom.xml</relativePath>
     </parent>
 
-    <artifactId>org.openntf.langchain4j.domino</artifactId>
-    <name>Langchain4j-Domino Integration Library</name>
-    <description>The core integration library integrating Langchain4j functionality for Domino databases</description>
+    <artifactId>langchain4j-domino</artifactId>
+    <name>Langchain4j for Domino - Core Integration Library</name>
+    <description>The core integration library integrating Langchain4j functionality for Domino data</description>
 
     <dependencies>
 
@@ -52,4 +54,26 @@
             <artifactId>commons-io</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestFile>META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
