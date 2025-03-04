@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.openntf.langchain4j-domino</groupId>
-    <artifactId>baseline</artifactId>
+    <artifactId>parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>LangChain4j for Domino - Baseline Settings</name>
+    <name>LangChain4j for Domino - Parent</name>
     <description>Common features, dependencies and configuration for LangChain4j Domino integration</description>
     <inceptionYear>2024</inceptionYear>
 
@@ -42,8 +42,8 @@
         <osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 
         <!-- Main dependencies' versions -->
-        <langchain4j.version>1.0.0-alpha1</langchain4j.version>
-        <domino-jnx.version>1.44.0</domino-jnx.version>
+        <langchain4j.version>1.0.0-beta1</langchain4j.version>
+        <domino-jnx.version>1.45.0</domino-jnx.version>
 
         <!-- Other libraries' versions -->
         <jsoup.version>1.18.1</jsoup.version>
@@ -72,6 +72,15 @@
         <maven-dependency-plugin.version>3.1.0</maven-dependency-plugin.version>
         <maven-bundle-plugin.version>6.0.0</maven-bundle-plugin.version>
     </properties>
+
+    <modules>
+        <module>core-libs/langchain4j-domino</module>
+        <module>extension-plugins/org.openntf.langchain4j.xsp</module>
+        <module>extension-plugins/updatesite</module>
+
+        <!-- OSGi dependencies will not be aggregated, so excluding -->
+        <!-- <module>osgi-deps</module> -->
+    </modules>
 
     <!-- Some OpenNTF-based plugins and packages are coming from these repositories -->
     <repositories>
@@ -177,7 +186,7 @@
 
                 <!-- Standard plugins: Declare to lockdown for versions -->
                 <plugin>
-					<groupId>org.apache.maven.plugins</groupId>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>${maven-clean-plugin.version}</version>
                 </plugin>
@@ -191,7 +200,7 @@
                     </configuration>
                 </plugin>
                 <plugin>
-					<groupId>org.apache.maven.plugins</groupId>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>${maven-deploy-plugin.version}</version>
                 </plugin>
@@ -227,11 +236,11 @@
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>${maven-assembly-plugin.version}</version>
                 </plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>${maven-dependency-plugin.version}</version>
-				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin.version}</version>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
@@ -301,7 +310,7 @@
                         </properties>
                         <licenseSets>
                             <licenseSet>
-                                <header>../LicenseTemplate.txt</header>
+                                <header>LicenseTemplate.txt</header>
                                 <excludes>
                                     <exclude>**/pom.xml</exclude>
                                     <exclude>**/README.*</exclude>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-	<feature id="org.openntf.langchain4j.feature">
-		<category name="OpenNTF Langchain4j Domino"/>
-	</feature>
-
-	<category-def name="OpenNTF Langchain4j Domino" label="OpenNTF Langchain4j Domino"/>
-</site>

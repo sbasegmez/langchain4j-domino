@@ -28,7 +28,7 @@
     <fileSets>
         <!-- Local files -->
         <fileSet>
-            <directory>${project.basedir}/../../..</directory>
+            <directory>${project.basedir}/../..</directory>
             <includes>
                 <include>README.md</include>
                 <include>LICENSE</include>

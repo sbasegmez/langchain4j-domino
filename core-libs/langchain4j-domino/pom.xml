@@ -7,9 +7,9 @@
     <!-- Pull baseline settings from the parent. No need for aggregation -->
     <parent>
         <groupId>org.openntf.langchain4j-domino</groupId>
-        <artifactId>baseline</artifactId>
+        <artifactId>parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../../baseline/pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>langchain4j-domino</artifactId>
