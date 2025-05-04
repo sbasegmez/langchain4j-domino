@@ -43,9 +43,16 @@ public class DominoDocumentLoader {
     private static final Logger logger = Logger.getLogger(DominoDocumentLoader.class.getName());
 
     // Must have all of these
-    private final DocumentParser documentParser;
     private final MetadataDefinition metadataDefinition;
+
+    // Document parser to use
+    private DocumentParser documentParser;
+
+    // Field names to be looked up
     private final Set<String> fieldNames;
+
+    // Attached files. if true, all attachments are loaded as separate documents.
+    private boolean loadAttachments;
 
     // Order of preference:
 
@@ -72,9 +79,21 @@ public class DominoDocumentLoader {
     }
 
     public DominoDocumentLoader(MetadataDefinition metadataDefinition) {
-        this.metadataDefinition = ensureNotNull(metadataDefinition, "Metadata Definition");
         this.fieldNames = new LinkedHashSet<>();
-        this.documentParser = new TextDocumentParser();
+        this.metadataDefinition = ensureNotNull(metadataDefinition, "Metadata Definition");
+
+        this.documentParser = new TextDocumentParser(); // default parser
+        this.loadAttachments = false; // default is false
+    }
+
+    public DominoDocumentLoader documentParser(DocumentParser documentParser) {
+        this.documentParser = ensureNotNull(documentParser, "Document Parser");
+        return this;
+    }
+
+    public DominoDocumentLoader loadAttachments(boolean loadAttachments) {
+        this.loadAttachments = loadAttachments;
+        return this;
     }
 
     public DominoDocumentLoader fieldName(String fieldName) {
@@ -156,8 +175,14 @@ public class DominoDocumentLoader {
     }
 
     public List<Document> loadDocuments() {
-        if (fieldNames.isEmpty()) {
-            throw new IllegalArgumentException("At least one field name must be provided!");
+        if (loadAttachments) {
+            if (!fieldNames.isEmpty()) {
+                throw new IllegalArgumentException("You cannot provide field names when loading attachments!");
+            }
+        } else {
+            if (fieldNames.isEmpty()) {
+                throw new IllegalArgumentException("Either load attachments, or provide at least one field name!");
+            }
         }
 
         // If we have dominoDocuments, we can use them directly.
@@ -168,6 +193,8 @@ public class DominoDocumentLoader {
         if (collectionEntries != null && !collectionEntries.isEmpty()) {
             return loadByFetching(collectionEntries, CollectionEntry::openDocument);
         }
+
+        boolean closeDatabase = false;
 
         if (database == null) {
             if (dominoClient == null || TypeUtils.isEmpty(databasePath)) {
@@ -180,33 +207,68 @@ public class DominoDocumentLoader {
             } else {
                 database = dominoClient.openDatabase(server, databasePath);
             }
+
+            // If we open the database, we need to close it when done.
+            closeDatabase = true;
         }
 
-        if (documentUniqueIds != null && !documentUniqueIds.isEmpty()) {
-            return loadByFetching(documentUniqueIds, database::getDocumentByUNID);
-        }
+        try {
+            if (documentUniqueIds != null && !documentUniqueIds.isEmpty()) {
+                return loadByFetching(documentUniqueIds, database::getDocumentByUNID);
+            }
 
-        if (noteIds != null && !noteIds.isEmpty()) {
-            return loadByFetching(noteIds, database::getDocumentById);
+            if (noteIds != null && !noteIds.isEmpty()) {
+                return loadByFetching(noteIds, database::getDocumentById);
+            }
+        } finally {
+            if (closeDatabase) {
+                database.close();
+            }
         }
 
         // We can't return documents, then we must have an argument issue.
         throw new IllegalArgumentException("Either noteIds or collectionEntries must be provided!");
     }
 
-    private Optional<Document> loadFromDoc(com.hcl.domino.data.Document dominoDocument) {
-        DocumentSource source = DominoDocumentSource.builder()
-                                                    .fieldNames(this.fieldNames)
-                                                    .metadataDefinition(metadataDefinition)
-                                                    .dominoDocument(dominoDocument)
-                                                    .build();
+    private Optional<Document> loadFieldsFromDoc(com.hcl.domino.data.Document dominoDocument) {
+        DocumentSource source = DominoDataDocumentSource.builder()
+                                                        .fieldNames(this.fieldNames)
+                                                        .metadataDefinition(metadataDefinition)
+                                                        .dominoDocument(dominoDocument)
+                                                        .build();
 
         return parseSource(source, documentParser);
     }
 
-    private List<Document> loadFromDocs(List<com.hcl.domino.data.Document> dominoDocuments) {
+    private List<Document> loadAttachmentsFromDoc(com.hcl.domino.data.Document dominoDocument) {
+        return dominoDocument.getAttachmentNames()
+                             .stream()
+                             .map(attachmentName -> loadAttachmentFromDoc(dominoDocument, attachmentName))
+                             .flatMap(Optional::stream)
+                             .toList();
+    }
+
+    private Optional<Document> loadAttachmentFromDoc(com.hcl.domino.data.Document dominoDocument, String attachmentName) {
+        DocumentSource source = DominoAttachmentDocumentSource.builder()
+                                                              .attachment(attachmentName)
+                                                              .metadataDefinition(metadataDefinition)
+                                                              .dominoDocument(dominoDocument)
+                                                              .build();
+
+        return parseSource(source, documentParser);
+    }
+
+    private List<Document> loadFromDocs(Collection<com.hcl.domino.data.Document> dominoDocuments) {
+
+        if (loadAttachments) {
+            return dominoDocuments.stream()
+                                  .map(this::loadAttachmentsFromDoc)
+                                  .flatMap(List::stream)
+                                  .toList();
+        }
+
         return dominoDocuments.stream()
-                              .map(this::loadFromDoc)
+                              .map(this::loadFieldsFromDoc)
                               .flatMap(Optional::stream)
                               .toList();
     }
@@ -222,9 +284,19 @@ public class DominoDocumentLoader {
         if (collection == null || collection.isEmpty()) {
             return List.of();
         }
+
+        if (loadAttachments) {
+            return collection.stream()
+                             .flatMap(id -> fetcher.apply(id)
+                                                   .map(this::loadAttachmentsFromDoc)
+                                                   .stream()
+                                                   .flatMap(List::stream))
+                             .toList();
+        }
+
         return collection.stream()
                          .flatMap(id -> fetcher.apply(id)
-                                               .flatMap(this::loadFromDoc)
+                                               .flatMap(this::loadFieldsFromDoc)
                                                .stream())
                          .toList();
     }
