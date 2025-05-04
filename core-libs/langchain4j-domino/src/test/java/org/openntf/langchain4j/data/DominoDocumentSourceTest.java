@@ -1,24 +1,31 @@
 package org.openntf.langchain4j.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.hcl.domino.commons.json.JsonUtil;
+import com.hcl.domino.data.Attachment.Compression;
 import com.hcl.domino.data.Database;
 import com.hcl.domino.data.Document;
 import com.hcl.domino.mime.MimeData;
+import com.hcl.domino.mime.attachments.LocalFileMimeAttachment;
 import com.hcl.domino.mime.attachments.UrlMimeAttachment;
 import com.hcl.domino.richtext.RichTextWriter;
 import com.hcl.domino.richtext.TextStyle.Justify;
 import dev.langchain4j.data.document.DocumentSource;
 import dev.langchain4j.data.document.Metadata;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.Objects;
 import org.jsoup.Jsoup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openntf.langchain4j.data.DominoAttachmentDocumentSource.Builder;
 import org.openntf.test.jnx.AbstractNotesRuntimeTest;
 
 class DominoDocumentSourceTest extends AbstractNotesRuntimeTest {
@@ -59,6 +66,12 @@ class DominoDocumentSourceTest extends AbstractNotesRuntimeTest {
         return Jsoup.parseBodyFragment(html).text();
     }
 
+    private long getSize(DocumentSource documentSource) throws IOException {
+        try (InputStream inputStream = documentSource.inputStream()) {
+            return inputStream.available();
+        }
+    }
+
     @Test
     void testDocumentSource() throws Exception {
 
@@ -91,7 +104,7 @@ class DominoDocumentSourceTest extends AbstractNotesRuntimeTest {
         writtenMimeData.setPlainText(plainText);
 
         // Attach a PDF
-        writtenMimeData.attach(new UrlMimeAttachment(this.getClass().getResource("/test.pdf")));
+        writtenMimeData.attach(new UrlMimeAttachment(this.getClass().getResource("/test1.pdf")));
 
         doc.replaceItemValue("BodyMimeMixed", writtenMimeData);
 
@@ -102,10 +115,10 @@ class DominoDocumentSourceTest extends AbstractNotesRuntimeTest {
         doc.save();
 
         // Plain text field
-        var docSrc = DominoDocumentSource.builder()
-                                         .dominoDocument(doc)
-                                         .fieldName("Description")
-                                         .build();
+        var docSrc = DominoDataDocumentSource.builder()
+                                             .dominoDocument(doc)
+                                             .fieldName("Description")
+                                             .build();
 
         // Check default metadata
         Metadata metadata = docSrc.metadata();
@@ -123,14 +136,14 @@ class DominoDocumentSourceTest extends AbstractNotesRuntimeTest {
         assertEquals(description, getContent(docSrc), "Plain Text field content mismatch");
 
         // Order of fields should be preserved
-        docSrc = DominoDocumentSource.builder()
-                                     .dominoDocument(doc)
-                                     .metadataDefinition(MetadataDefinition.EMPTY)
-                                     .fieldName("Title")
-                                     .fieldName("Form")
-                                     .fieldName("Description")
-                                     .fieldName("BodyRT")
-                                     .build();
+        docSrc = DominoDataDocumentSource.builder()
+                                         .dominoDocument(doc)
+                                         .metadataDefinition(MetadataDefinition.EMPTY)
+                                         .fieldName("Title")
+                                         .fieldName("Form")
+                                         .fieldName("Description")
+                                         .fieldName("BodyRT")
+                                         .build();
 
         // Empty metadata definition
         assertTrue(docSrc.metadata().toMap().isEmpty(), "Empty Metadata should be empty");
@@ -139,22 +152,83 @@ class DominoDocumentSourceTest extends AbstractNotesRuntimeTest {
         assertEquals(expected, getContent(docSrc), "Multi Text field content mismatch");
 
         // Mime converson
-        docSrc = DominoDocumentSource.builder()
-                                     .metadataDefinition(MetadataDefinition.EMPTY)
-                                     .dominoDocument(doc)
-                                     .fieldName("BodyMimeMixed")
-                                     .build();
+        docSrc = DominoDataDocumentSource.builder()
+                                         .metadataDefinition(MetadataDefinition.EMPTY)
+                                         .dominoDocument(doc)
+                                         .fieldName("BodyMimeMixed")
+                                         .build();
 
         assertEquals(plainText, getContent(docSrc), "Mixed Mime should extract Plain Text content");
 
         // Mime converson
-        docSrc = DominoDocumentSource.builder()
-                                     .metadataDefinition(MetadataDefinition.EMPTY)
-                                     .dominoDocument(doc)
-                                     .fieldName("BodyMimeHtml")
-                                     .build();
+        docSrc = DominoDataDocumentSource.builder()
+                                         .metadataDefinition(MetadataDefinition.EMPTY)
+                                         .dominoDocument(doc)
+                                         .fieldName("BodyMimeHtml")
+                                         .build();
 
         assertEquals(htmlToText(html), getContent(docSrc), "Mixed Mime should extract Html Text content");
+    }
+
+    @Test
+    void documentAttachmentTest() throws IOException, URISyntaxException {
+        Document doc = getTempDb().createDocument()
+                                  .replaceItemValue("Form", "Test")
+                                  .replaceItemValue("Title", "Test Document");
+
+        Path att1Path = Path.of(Objects.requireNonNull(this.getClass().getResource("/test.png")).toURI());
+        Path att2Path = Path.of(Objects.requireNonNull(this.getClass().getResource("/test1.pdf")).toURI());
+        Path att3Path = Path.of(Objects.requireNonNull(this.getClass().getResource("/test2.pdf")).toURI());
+
+        // Attachment out of fields
+        doc.attachFile(att1Path.toString(), att1Path.getFileName().toString(), Compression.NONE);
+        var att2 = doc.attachFile(att2Path.toString(), att2Path.getFileName().toString(), Compression.NONE);
+
+        // Attachment in a field
+        try (RichTextWriter w = doc.createRichTextItem("Body")) {
+            w.addAttachmentIcon(att2, "Attachment Test");
+        }
+
+        // Attachment in a MIME field
+        MimeData writtenMimeData = new MimeData();
+        writtenMimeData.setHtml("This is <b>formatted</b> text");
+        writtenMimeData.attach(new LocalFileMimeAttachment(att3Path));
+        doc.replaceItemValue("BodyMime", writtenMimeData);
+
+        doc.save();
+
+        Builder builder = DominoAttachmentDocumentSource.builder()
+                                                        .dominoDocument(doc)
+                                                        .metadataDefinition(MetadataDefinition.EMPTY);
+
+        assertThrows(IllegalArgumentException.class,
+                     builder::build,
+                     "No attachment should throw exception");
+
+        assertThrows(IllegalArgumentException.class,
+                     () -> builder.attachment(null).build(),
+                     "Null attachment should throw exception");
+
+        assertThrows(IllegalArgumentException.class,
+                     () -> builder.attachment("").build(),
+                     "Empty attachment should throw exception");
+
+        assertThrows(IOException.class,
+                     () -> getSize(builder.attachment("nonexisting").build()),
+                     "Non-existing attachment should throw exception");
+
+        assertEquals(att1Path.toFile().length(),
+                     getSize(builder.attachment(att1Path.getFileName().toString()).build()),
+                     "Attachment without a field should be extracted");
+
+        assertEquals(att3Path.toFile().length(),
+                     getSize(builder.attachment(att3Path.getFileName().toString()).build()),
+                     "Attachment inside a MIME field should be extracted");
+
+        assertEquals(att2Path.toFile().length(),
+                     getSize(builder.attachment(att2Path.getFileName().toString()).build()),
+                     "Attachment inside a RT field should be extracted");
+
     }
 
 
