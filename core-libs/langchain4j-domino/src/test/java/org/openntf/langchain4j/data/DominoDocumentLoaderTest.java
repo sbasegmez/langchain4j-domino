@@ -2,6 +2,7 @@ package org.openntf.langchain4j.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.hcl.domino.data.Attachment.Compression;
 import com.hcl.domino.data.Database;
@@ -210,6 +211,50 @@ class DominoDocumentLoaderTest extends AbstractNotesRuntimeTest {
             String expectedText = TEST_CONTENTS.get(i);
             assertEquals(expectedText, doc1.text(), "Expected text to match for document " + i);
         }
+    }
+
+    @Test
+    void testSingleDocWithFilePattern() throws URISyntaxException {
+        Database db = getTempDb();
+        var doc = createTestDocument(db, 0);
+
+        for (int i = 0; i < TEST_CONTENTS.size(); i++) {
+            attachToDoc(doc, "test" + i + ".txt", TEST_CONTENTS.get(i));
+        }
+
+        // Attach a PDF file to the document
+        Path attPath = Path.of(Objects.requireNonNull(this.getClass().getResource("/test1.pdf")).toURI());
+        doc.attachFile(attPath.toString(), attPath.getFileName().toString(), Compression.NONE);
+
+        // Test case sensitivity
+        attachToDoc(doc, "SAMPLE.TXT", "foo bar");
+
+        // Text files only
+        List<Document> docs = DominoDocumentLoader.create(MetadataDefinition.DEFAULT)
+                                                  .documentParser(new TextDocumentParser())
+                                                  .filePattern("*.txt")
+                                                  .dominoDocument(doc)
+                                                  .loadDocuments();
+
+        assertEquals(TEST_CONTENTS.size() + 1, docs.size(), "Case insensitive match should have been working!");
+
+        // PDF file only
+        docs = DominoDocumentLoader.create(MetadataDefinition.DEFAULT)
+                                                  .documentParser(new ApachePdfBoxDocumentParser())
+                                                  .filePattern("*.pdf")
+                                                  .dominoDocument(doc)
+                                                  .loadDocuments();
+
+        assertEquals(1, docs.size(), "PDF Attachment should have been parsed");
+
+        // Non-existing files
+        docs = DominoDocumentLoader.create(MetadataDefinition.DEFAULT)
+                                                  .documentParser(new TextDocumentParser())
+                                                  .filePattern("*.java")
+                                                  .dominoDocument(doc)
+                                                  .loadDocuments();
+
+        assertTrue(docs.isEmpty(), "No match should return empty collection");
     }
 
     @Test

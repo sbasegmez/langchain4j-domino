@@ -26,11 +26,18 @@ import dev.langchain4j.data.document.DocumentLoader;
 import dev.langchain4j.data.document.DocumentParser;
 import dev.langchain4j.data.document.DocumentSource;
 import dev.langchain4j.data.document.parser.TextDocumentParser;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -53,6 +60,9 @@ public class DominoDocumentLoader {
 
     // Attached files. if true, all attachments are loaded as separate documents.
     private boolean loadAttachments;
+
+    // Filter attachments to the file pattern
+    private String filePattern;
 
     // Order of preference:
 
@@ -93,6 +103,12 @@ public class DominoDocumentLoader {
 
     public DominoDocumentLoader loadAttachments(boolean loadAttachments) {
         this.loadAttachments = loadAttachments;
+        return this;
+    }
+
+    public DominoDocumentLoader filePattern(String pattern) {
+        this.loadAttachments = true;
+        this.filePattern = pattern;
         return this;
     }
 
@@ -241,8 +257,14 @@ public class DominoDocumentLoader {
     }
 
     private List<Document> loadAttachmentsFromDoc(com.hcl.domino.data.Document dominoDocument) {
+        if(TypeUtils.isEmpty(this.filePattern)) {
+            this.filePattern = "*.*";
+        }
+        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + filePattern.toLowerCase(Locale.ENGLISH));
+
         return dominoDocument.getAttachmentNames()
                              .stream()
+                             .filter(attachmentName -> matcher.matches(Paths.get(attachmentName.toLowerCase(Locale.ENGLISH))))
                              .map(attachmentName -> loadAttachmentFromDoc(dominoDocument, attachmentName))
                              .flatMap(Optional::stream)
                              .toList();
