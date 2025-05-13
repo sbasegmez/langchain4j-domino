@@ -1,0 +1,320 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.openntf.langchain4j-domino</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.9.0</version>
+    <packaging>pom</packaging>
+
+    <name>LangChain4j for Domino - Parent</name>
+    <description>Common features, dependencies and configuration for LangChain4j Domino integration</description>
+    <inceptionYear>2024</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Serdar Basegmez</name>
+            <url>https://lotusnotus.com</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- General -->
+        <license-developers>Serdar Basegmez</license-developers>
+        <license-year>2024</license-year>
+
+        <!-- For XSP packaging -->
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
+        <osgi-framework.version>1.8.0</osgi-framework.version>
+
+        <!-- Main dependencies' versions -->
+        <langchain4j.version>1.0.0-rc1</langchain4j.version>
+        <domino-jnx.version>1.46.0</domino-jnx.version>
+
+        <!-- Other libraries' versions -->
+        <jsoup.version>1.19.1</jsoup.version>
+        <xsp-stubs.version>1.0.0</xsp-stubs.version>
+        <junit.version>5.12.2</junit.version>
+
+        <!-- Domino JNX / Java API dependencies -->
+        <jakarta-mail.version>2.1.3</jakarta-mail.version>
+        <sun-jakarta-acivation.version>2.0.1</sun-jakarta-acivation.version>
+        <sun-jaxb-impl.version>3.0.0</sun-jaxb-impl.version>
+        <angus-mail.version>2.0.3</angus-mail.version>
+
+        <!-- Plugin versions -->
+        <license-maven-plugin.version>4.6</license-maven-plugin.version>
+        <openntf-p2-plugin.version>3.1.2</openntf-p2-plugin.version>
+        <p2sitexml-maven-plugin.version>1.3.0</p2sitexml-maven-plugin.version>
+        <maven-enforcer.version>3.1.0</maven-enforcer.version>
+        <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-deploy-plugin.version>3.1.3</maven-deploy-plugin.version>
+        <maven-install-plugin.version>3.1.3</maven-install-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+        <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
+        <maven-dependency-plugin.version>3.1.0</maven-dependency-plugin.version>
+        <maven-bundle-plugin.version>6.0.0</maven-bundle-plugin.version>
+    </properties>
+
+    <modules>
+        <module>core-libs/langchain4j-domino</module>
+        <module>extension-plugins/org.openntf.langchain4j.xsp</module>
+        <module>extension-plugins/updatesite</module>
+
+        <!-- OSGi dependencies will not be aggregated, so excluding -->
+        <!-- <module>osgi-deps</module> -->
+    </modules>
+
+    <!-- Some OpenNTF-based plugins and packages are coming from these repositories -->
+    <repositories>
+        <repository>
+            <id>artifactory.openntf.org</id>
+            <name>artifactory.openntf.org</name>
+            <url>https://artifactory.openntf.org/openntf</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>artifactory.openntf.org</id>
+            <name>artifactory.openntf.org</name>
+            <url>https://artifactory.openntf.org/openntf</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Langchain4j -->
+            <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-bom</artifactId>
+                <version>1.0.0-beta4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Domino JNX -->
+            <!-- TODO Prepare for 14.5 release. Version suffix should be configurable -->
+            <dependency>
+                <groupId>com.hcl.domino</groupId>
+                <artifactId>domino-jnx-api-r14</artifactId>
+                <version>${domino-jnx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hcl.domino</groupId>
+                <artifactId>domino-jnx-commons-r14</artifactId>
+                <version>${domino-jnx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hcl.domino</groupId>
+                <artifactId>domino-jnx-jna-r14</artifactId>
+                <version>${domino-jnx.version}</version>
+            </dependency>
+
+            <!-- Utilities -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
+            </dependency>
+
+            <!-- JNX and XSP projects need these dependencies -->
+            <dependency>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>angus-mail</artifactId>
+                <version>${angus-mail.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openntf.xsp.stubs</groupId>
+                <artifactId>com.ibm.xsp.core</artifactId>
+                <version>${xsp-stubs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.framework</artifactId>
+                <version>${osgi-framework.version}</version>
+            </dependency>
+
+            <!-- Testing -->
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.12.2</version>
+                <type>pom</type>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!-- Standard plugins: Declare to lockdown for versions -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven-install-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <skip>true</skip>
+                        <trimStackTrace>false</trimStackTrace>
+                        <reuseForks>false</reuseForks>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                </plugin>
+
+                <!-- Maven tools plugins -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer.version}</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-maven-and-java</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireMavenVersion>
+                                        <version>3.0.1</version>
+                                    </requireMavenVersion>
+                                    <requireJavaVersion>
+                                        <version>17</version>
+                                    </requireJavaVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Misc Plugins -->
+                <plugin>
+                    <groupId>org.openntf.maven</groupId>
+                    <artifactId>p2-maven-plugin</artifactId>
+                    <extensions>true</extensions>
+                    <version>${openntf-p2-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.darwino</groupId>
+                    <artifactId>p2sitexml-maven-plugin</artifactId>
+                    <version>${p2sitexml-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>${maven-bundle-plugin.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <manifestLocation>META-INF</manifestLocation>
+                        <niceManifest>true</niceManifest>
+                        <supportedProjectTypes>
+                            <supportedProjectType>jar</supportedProjectType>
+                            <supportedProjectType>bundle</supportedProjectType>
+                        </supportedProjectTypes>
+                        <supportIncrementalBuild>true</supportIncrementalBuild>
+                        <instructions>
+                            <Bundle-RequiredExecutionEnvironment>JavaSE-17</Bundle-RequiredExecutionEnvironment>
+                            <_removeheaders>Require-Capability</_removeheaders>
+                            <_snapshot>${osgi.qualifier}</_snapshot>
+                            <_bundleannotations/>
+                        </instructions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${license-maven-plugin.version}</version>
+                    <configuration>
+                        <aggregate>true</aggregate>
+                        <properties>
+                            <owner>${license-developers}</owner>
+                            <copyrightYear>${license-year}</copyrightYear>
+                        </properties>
+                        <licenseSets>
+                            <licenseSet>
+                                <header>LicenseTemplate.txt</header>
+                                <excludes>
+                                    <exclude>**/pom.xml</exclude>
+                                    <exclude>**/README.*</exclude>
+                                    <exclude>src/test/resources/**</exclude>
+                                    <exclude>src/main/resources/**</exclude>
+                                    <exclude>**/build.properties</exclude>
+                                    <exclude>**/LICENSE.*</exclude>
+                                    <exclude>**/NOTICE.*</exclude>
+
+                                    <exclude>**/odp/**</exclude>
+                                    <exclude>docs/**</exclude>
+                                </excludes>
+                            </licenseSet>
+                        </licenseSets>
+
+                        <mapping>
+                            <xsp-config>XML_STYLE</xsp-config>
+                        </mapping>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
