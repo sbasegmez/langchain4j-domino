@@ -43,7 +43,7 @@
         <osgi-framework.version>1.8.0</osgi-framework.version>
 
         <!-- Main dependencies' versions -->
-        <langchain4j.version>1.0.0-rc1</langchain4j.version>
+        <langchain4j.version>1.0.0</langchain4j.version>
         <domino-jnx.version>1.46.0</domino-jnx.version>
 
         <!-- Other libraries' versions -->
