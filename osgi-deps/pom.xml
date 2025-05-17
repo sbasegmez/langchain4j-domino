@@ -7,9 +7,9 @@
     <!-- Pull baseline settings from the parent. No need for aggregation -->
     <parent>
         <groupId>org.openntf.langchain4j-domino</groupId>
-        <artifactId>baseline</artifactId>
+        <artifactId>parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../baseline/pom.xml</relativePath>        
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>osgi-deps</artifactId>
@@ -73,7 +73,6 @@
                         <configuration>
                             <p2>
                                 <!-- Testing Runtime -->
-                                <!-- TODO: Investigate why specific versions are so important. -->
                                 <artifact>
                                     <id>org.junit:4.12.0.v201504281640</id>
                                     <source>true</source>
@@ -131,7 +130,14 @@
                                     <id>dev.langchain4j:langchain4j-qdrant:${langchain4j.version}</id>
                                     <source>true</source>
                                 </artifact>
-
+                                <artifact>
+                                    <id>dev.langchain4j:langchain4j-document-parser-apache-poi:${langchain4j.version}</id>
+                                    <source>true</source>
+                                </artifact>
+                                <artifact>
+                                    <id>dev.langchain4j:langchain4j-document-parser-apache-pdfbox:${langchain4j.version}</id>
+                                    <source>true</source>
+                                </artifact>
                                 <!-- Domino JNX -->
                                 <artifact>
                                     <id>com.hcl.domino:domino-jnx-api-r14:${domino-jnx.version}</id>
