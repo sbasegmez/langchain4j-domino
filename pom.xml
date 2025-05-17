@@ -77,10 +77,11 @@
     <modules>
         <module>core-libs/langchain4j-domino</module>
         <module>extension-plugins/org.openntf.langchain4j.xsp</module>
-        <module>extension-plugins/updatesite</module>
+        <module>release-dist/updatesite-xsp</module>
+        <module>release-dist/langchain4j-domino-dist</module>
 
         <!-- OSGi dependencies will not be aggregated, so excluding -->
-        <!-- <module>osgi-deps</module> -->
+        <!-- <module>workbench/osgi-deps</module> -->
     </modules>
 
     <!-- Some OpenNTF-based plugins and packages are coming from these repositories -->

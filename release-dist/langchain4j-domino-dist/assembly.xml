@@ -40,7 +40,7 @@
 
         <!-- Generated Domino p2 site -->
         <fileSet>
-            <directory>${project.build.directory}/repository</directory>
+            <directory>${project.basedir}/../updatesite-xsp/target/repository</directory>
             <includes>
                 <include>**/*</include>
             </includes>
