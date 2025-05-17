@@ -35,7 +35,7 @@
 
         <!-- General -->
         <license-developers>Serdar Basegmez</license-developers>
-        <license-year>2024</license-year>
+        <license-year>2025</license-year>
 
         <!-- For XSP packaging -->
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
@@ -306,6 +306,8 @@
 
                                     <exclude>**/odp/**</exclude>
                                     <exclude>docs/**</exclude>
+
+                                    <exclude>**/AbstractNotesRuntimeTest.java</exclude>
                                 </excludes>
                             </licenseSet>
                         </licenseSets>
