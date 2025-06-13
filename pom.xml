@@ -5,7 +5,7 @@
 
     <groupId>org.openntf.langchain4j-domino</groupId>
     <artifactId>parent</artifactId>
-    <version>0.9.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>LangChain4j for Domino - Parent</name>
@@ -35,7 +35,7 @@
 
         <!-- General -->
         <license-developers>Serdar Basegmez</license-developers>
-        <license-year>2024</license-year>
+        <license-year>2025</license-year>
 
         <!-- For XSP packaging -->
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
@@ -43,7 +43,7 @@
         <osgi-framework.version>1.8.0</osgi-framework.version>
 
         <!-- Main dependencies' versions -->
-        <langchain4j.version>1.0.0-rc1</langchain4j.version>
+        <langchain4j.version>1.0.0</langchain4j.version>
         <domino-jnx.version>1.46.0</domino-jnx.version>
 
         <!-- Other libraries' versions -->
@@ -77,10 +77,11 @@
     <modules>
         <module>core-libs/langchain4j-domino</module>
         <module>extension-plugins/org.openntf.langchain4j.xsp</module>
-        <module>extension-plugins/updatesite</module>
+        <module>release-dist/updatesite-xsp</module>
+        <module>release-dist/langchain4j-domino-dist</module>
 
         <!-- OSGi dependencies will not be aggregated, so excluding -->
-        <!-- <module>osgi-deps</module> -->
+        <!-- <module>workbench/osgi-deps</module> -->
     </modules>
 
     <!-- Some OpenNTF-based plugins and packages are coming from these repositories -->
@@ -305,6 +306,8 @@
 
                                     <exclude>**/odp/**</exclude>
                                     <exclude>docs/**</exclude>
+
+                                    <exclude>**/AbstractNotesRuntimeTest.java</exclude>
                                 </excludes>
                             </licenseSet>
                         </licenseSets>

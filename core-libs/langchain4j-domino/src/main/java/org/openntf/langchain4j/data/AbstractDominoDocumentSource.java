@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2024-2025 Serdar Basegmez
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.openntf.langchain4j.data;
 
 import static dev.langchain4j.internal.ValidationUtils.ensureNotNull;
@@ -129,41 +144,88 @@ public abstract class AbstractDominoDocumentSource implements DocumentSource {
         public AbstractBuilder() {
         }
 
+        /**
+         * Sets DominoClient.
+         * See findDominoDocument method for valid combinations of parameters.
+         * @param dominoClient DominoClient instance to be used for finding the document.
+         * @return this builder instance, for method chaining.
+         */
         public T dominoClient(DominoClient dominoClient) {
             this.dominoClient = dominoClient;
             return self();
         }
 
+        /**
+         * Sets Database.
+         * See findDominoDocument method for valid combinations of parameters.
+         * @param database Database instance to be used for finding the document.
+         * @return this builder instance, for method chaining.
+         */
         public T database(Database database) {
             this.database = database;
             return self();
         }
 
+        /**
+         * Sets Domino Document.
+         * See findDominoDocument method for valid combinations of parameters.
+         * @param dominoDocument Domino Document instance to be used for extracting metadata.
+         * @return this builder instance, for method chaining.
+         */
         public T dominoDocument(Document dominoDocument) {
             this.dominoDocument = dominoDocument;
             return self();
         }
 
+        /**
+         * Sets server to access the database.
+         * See findDominoDocument method for valid combinations of parameters.
+         * @param server Server name to be used for finding the document.
+         * @return this builder instance, for method chaining.
+         */
         public T server(String server) {
             this.server = server;
             return self();
         }
 
+        /**
+         * Sets database path to access the database.
+         * See findDominoDocument method for valid combinations of parameters.
+         * @param databasePath the database path to be used for finding the document.
+         * @return this builder instance, for method chaining.
+         */
         public T databasePath(String databasePath) {
             this.databasePath = databasePath;
             return self();
         }
 
+        /**
+         * Sets document unique ID to access the document.
+         * See findDominoDocument method for valid combinations of parameters.
+         * @param documentUniqueId the document unique ID to be used for finding the document.
+         * @return this builder instance, for method chaining.
+         */
         public T documentUniqueId(String documentUniqueId) {
             this.documentUniqueId = documentUniqueId;
             return self();
         }
 
+        /**
+         * Sets note ID to access the document.
+         * See findDominoDocument method for valid combinations of parameters.
+         * @param noteId the note ID to be used for finding the document.
+         * @return this builder instance, for method chaining.
+         */
         public T noteId(int noteId) {
             this.noteId = noteId;
             return self();
         }
 
+        /**
+         * Sets the metadata definition to be used for extracting metadata.
+         * @param metadataDefinition the metadata definition to be used for extracting metadata.
+         * @return this builder instance, for method chaining.
+         */
         public T metadataDefinition(MetadataDefinition metadataDefinition) {
             this.metadataDefinition = metadataDefinition;
             return self();
@@ -213,7 +275,16 @@ public abstract class AbstractDominoDocumentSource implements DocumentSource {
             return Optional.empty();
         }
 
+        /**
+         * Subclasses will implement this method to return the builder instance itself.
+         * @return the builder instance itself.
+         */
         protected abstract T self();
+
+        /**
+         * Subclasses will implement this method to build the DocumentSource instance.
+         * @return DocumentSource instance.
+         */
         public abstract AbstractDominoDocumentSource build();
     }
 

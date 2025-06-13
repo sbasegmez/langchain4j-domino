@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (c) ${project.inceptionYear}-2025 Serdar Basegmez
+    Copyright (c) 2024-2025 Serdar Basegmez
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@
 
         <!-- Generated Domino p2 site -->
         <fileSet>
-            <directory>${project.build.directory}/repository</directory>
+            <directory>${project.basedir}/../updatesite-xsp/target/repository</directory>
             <includes>
                 <include>**/*</include>
             </includes>

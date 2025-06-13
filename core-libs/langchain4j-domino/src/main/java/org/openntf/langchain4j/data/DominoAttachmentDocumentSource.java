@@ -1,5 +1,5 @@
 /*
- * Copyright (c) ${project.inceptionYear}-2025 Serdar Basegmez
+ * Copyright (c) 2024-2025 Serdar Basegmez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,48 @@
  */
 package org.openntf.langchain4j.data;
 
-import static dev.langchain4j.internal.ValidationUtils.ensureNotNull;
-
 import com.hcl.domino.data.Attachment;
 import com.hcl.domino.data.Document;
 import java.io.IOException;
 import java.io.InputStream;
+import org.openntf.langchain4j.data.DominoDataDocumentSource.Builder;
 import org.openntf.utils.TypeUtils;
 
+/**
+ * This class is an implementation of the interface that extracts text from a file attached to a Domino document.
+ * It can use Langchain4j's parsers to detach and parse attachment content to create a Langchain4j document representation.
+ * <p>
+ * You can use {@link DominoDataDocumentSource.Builder} to create an instance of this class.
+ * <p>
+ * This is just to access single file attachment on a Domino document. The common use case is to use {@link DominoDocumentLoader}
+ * which will use this class as needed.
+ */
 public class DominoAttachmentDocumentSource extends AbstractDominoDocumentSource {
 
     private final String attachmentName;
 
+    /**
+     * Creates a new DominoAttachmentDocumentSource from a Domino document and an attachment name.
+     * Uses a default {@link MetadataDefinition} instance.
+     *
+     * @param document       the Domino document to extract text from.
+     * @param attachmentName the name of the attachment to extract text from.
+     */
     public DominoAttachmentDocumentSource(Document document, String attachmentName) {
         this(document, MetadataDefinition.DEFAULT, attachmentName);
     }
 
+    /**
+     * Creates a new DominoAttachmentDocumentSource from a Domino document, Metadata definition and an attachment name.
+     *
+     * @param document           the Domino document to extract text from.
+     * @param metadataDefinition the Metadata definition to use.
+     * @param attachmentName     the name of the attachment to extract text from.
+     */
     public DominoAttachmentDocumentSource(Document document, MetadataDefinition metadataDefinition, String attachmentName) {
         super(document, metadataDefinition);
 
-        if(TypeUtils.isEmpty(attachmentName)) {
+        if (TypeUtils.isEmpty(attachmentName)) {
             throw new IllegalArgumentException("Attachment name cannot be null or empty");
         }
 
@@ -62,6 +84,12 @@ public class DominoAttachmentDocumentSource extends AbstractDominoDocumentSource
             super();
         }
 
+        /**
+         * Sets the attachment name.
+         *
+         * @param attachmentName the name of the attachment to extract text from.
+         * @return this builder instance, for method chaining.
+         */
         public Builder attachment(String attachmentName) {
             this.attachmentName = attachmentName;
             return this;

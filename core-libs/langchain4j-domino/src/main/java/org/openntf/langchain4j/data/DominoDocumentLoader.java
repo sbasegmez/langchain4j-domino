@@ -1,5 +1,5 @@
 /*
- * Copyright (c) ${project.inceptionYear}-2025 Serdar Basegmez
+ * Copyright (c) 2024-2025 Serdar Basegmez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.openntf.utils.TypeUtils;
 
+/**
+ * DocumentLoader implementation for Domino documents.
+ * <br>
+ * This is a utility class that can be used to load document(s) from Domino databases with different options:
+ * - Text values of fields
+ * - Attachments
+ * <br>
+ * Usage:
+ * - Provide a metadata definition
+ * - Provide a document parser
+ * - Provide a list of field names or set loadAttachments to true to load attachments (you might provide a file pattern to filter the attachments)
+ * - Either:
+ *   - Provide a list of Domino documents
+ *   - Provide a list of collection entries
+ *   - Provide a dominoClient, server and databasePath and a list of document unique ids / note ids
+ *   - Provide a database and a list of document unique ids / note ids
+ *
+ */
 public class DominoDocumentLoader {
 
     private static final Logger logger = Logger.getLogger(DominoDocumentLoader.class.getName());
@@ -84,10 +102,19 @@ public class DominoDocumentLoader {
     private List<String> documentUniqueIds;
     private List<Integer> noteIds;
 
+    /**
+     * Create a new DominoDocumentLoader with the provided metadata definition
+     * @param metadataDefinition the metadata definition
+     * @return a new DominoDocumentLoader
+     */
     public static DominoDocumentLoader create(MetadataDefinition metadataDefinition) {
         return new DominoDocumentLoader(metadataDefinition);
     }
 
+    /**
+     * Create a new DominoDocumentLoader with the provided metadata definition
+     * @param metadataDefinition the metadata definition
+     */
     public DominoDocumentLoader(MetadataDefinition metadataDefinition) {
         this.fieldNames = new LinkedHashSet<>();
         this.metadataDefinition = ensureNotNull(metadataDefinition, "Metadata Definition");
@@ -96,36 +123,79 @@ public class DominoDocumentLoader {
         this.loadAttachments = false; // default is false
     }
 
+    /**
+     * Sets the document parser to use when loading documents.
+     *
+     * @param documentParser the document parser to use
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader documentParser(DocumentParser documentParser) {
         this.documentParser = ensureNotNull(documentParser, "Document Parser");
         return this;
     }
 
+    /**
+     * Specifies whether to load attachments from Domino documents.
+     *
+     * @param loadAttachments true to load attachments, false otherwise
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader loadAttachments(boolean loadAttachments) {
         this.loadAttachments = loadAttachments;
         return this;
     }
 
+    /**
+     * Sets the file pattern to filter attachments to be loaded.
+     * Automatically enables loading attachments.
+     *
+     * @param pattern the file pattern (glob) for attachments, e.g. "*.pdf"
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader filePattern(String pattern) {
         this.loadAttachments = true;
         this.filePattern = pattern;
         return this;
     }
 
+    /**
+     * Adds a field name to be loaded from each Domino document.
+     *
+     * @param fieldName the field name to load
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader fieldName(String fieldName) {
         this.fieldNames.add(fieldName);
         return this;
     }
 
+    /**
+     * Adds multiple field names to be loaded from each Domino document.
+     *
+     * @param fieldNames a collection of field names to load
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader fieldNames(Collection<String> fieldNames) {
         this.fieldNames.addAll(fieldNames);
         return this;
     }
 
+    /**
+     * Adds a Domino document to be loaded.
+     *
+     * @param dominoDocument the Domino document to load
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader dominoDocument(com.hcl.domino.data.Document dominoDocument) {
         return dominoDocuments(Collections.singleton(dominoDocument));
     }
 
+    /**
+     * Adds multiple Domino documents to be loaded.
+     *
+     * @param dominoDocuments a collection of Domino documents to load
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader dominoDocuments(Collection<com.hcl.domino.data.Document> dominoDocuments) {
         if (this.dominoDocuments == null) {
             this.dominoDocuments = new ArrayList<>();
@@ -135,6 +205,12 @@ public class DominoDocumentLoader {
         return this;
     }
 
+    /**
+     * Adds a collection entry whose document should be loaded.
+     *
+     * @param collectionEntries the collection entry to load
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader collectionEntries(CollectionEntry collectionEntries) {
         if (this.collectionEntries == null) {
             this.collectionEntries = new ArrayList<>();
@@ -144,30 +220,69 @@ public class DominoDocumentLoader {
         return this;
     }
 
+    /**
+     * Specifies the Domino database to use for document lookups.
+     *
+     * @param database the Domino database
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader database(Database database) {
         this.database = database;
         return this;
     }
 
+    /**
+     * Specifies the Domino client to use for database operations.
+     * Note that server and databasePath will be needed to open the database
+     *
+     * @param dominoClient the Domino client
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader dominoClient(DominoClient dominoClient) {
         this.dominoClient = dominoClient;
         return this;
     }
 
+    /**
+     * Sets the server name to use when opening the database.
+     * Note that dominoClient and databasePath will be needed to open the database
+     *
+     * @param server the Domino server name
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader server(String server) {
         this.server = server;
         return this;
     }
 
+    /**
+     * Sets the database path to use when opening the database.
+     * Note that dominoClient and server will be needed to open the database
+     *
+     * @param databasePath the Domino database path (e.g. "mail/user.nsf")
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader databasePath(String databasePath) {
         this.databasePath = databasePath;
         return this;
     }
 
+    /**
+     * Adds a document unique ID (UNID) to be loaded.
+     *
+     * @param documentUniqueId the unique document ID
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader documentUniqueId(String documentUniqueId) {
         return documentUniqueIds(Collections.singleton(documentUniqueId));
     }
 
+    /**
+     * Adds multiple document unique IDs (UNIDs) to be loaded.
+     *
+     * @param documentUniqueIds a collection of unique document IDs
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader documentUniqueIds(Collection<String> documentUniqueIds) {
         if (this.documentUniqueIds == null) {
             this.documentUniqueIds = new ArrayList<>();
@@ -177,10 +292,22 @@ public class DominoDocumentLoader {
         return this;
     }
 
+    /**
+     * Adds a note ID to be loaded.
+     *
+     * @param noteId the note ID of the document
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader noteId(int noteId) {
         return noteIds(Collections.singleton(noteId));
     }
 
+    /**
+     * Adds multiple note IDs to be loaded.
+     *
+     * @param noteIds a collection of note IDs
+     * @return this loader for method chaining
+     */
     public DominoDocumentLoader noteIds(Collection<Integer> noteIds) {
         if (this.noteIds == null) {
             this.noteIds = new ArrayList<>();
@@ -190,6 +317,13 @@ public class DominoDocumentLoader {
         return this;
     }
 
+    /**
+     * Loads documents from Domino using the provided configuration.
+     * At least one source (field names, attachments, document IDs, etc.) must be specified.
+     *
+     * @return a list of loaded documents
+     * @throws IllegalArgumentException if the configuration is incomplete or conflicting
+     */
     public List<Document> loadDocuments() {
         if (loadAttachments) {
             if (!fieldNames.isEmpty()) {

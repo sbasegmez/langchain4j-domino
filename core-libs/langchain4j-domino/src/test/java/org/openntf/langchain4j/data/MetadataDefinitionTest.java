@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2024-2025 Serdar Basegmez
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.openntf.langchain4j.data;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -47,15 +62,15 @@ class MetadataDefinitionTest {
 
         Assertions.assertEquals("i", fields.get(2).fieldName());
         Assertions.assertEquals("i", fields.get(2).formula());
-        Assertions.assertEquals(int.class, fields.get(2).fieldType());
+        Assertions.assertEquals(Integer.class, fields.get(2).fieldType());
 
         Assertions.assertEquals("l", fields.get(3).fieldName());
         Assertions.assertEquals("@L", fields.get(3).formula());
-        Assertions.assertEquals(long.class, fields.get(3).fieldType());
+        Assertions.assertEquals(Long.class, fields.get(3).fieldType());
 
         Assertions.assertEquals("d", fields.get(4).fieldName());
         Assertions.assertEquals("d", fields.get(4).formula());
-        Assertions.assertEquals(double.class, fields.get(4).fieldType());
+        Assertions.assertEquals(Double.class, fields.get(4).fieldType());
 
         Assertions.assertEquals("tm", fields.get(5).fieldName());
         Assertions.assertEquals("@TM", fields.get(5).formula());

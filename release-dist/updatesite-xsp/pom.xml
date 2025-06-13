@@ -4,16 +4,16 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Pull baseline settings from the parent. No need for aggregation -->
+    <!-- Pull settings from the parent. -->
     <parent>
         <groupId>org.openntf.langchain4j-domino</groupId>
         <artifactId>parent</artifactId>
-        <version>0.9.0</version>
+        <version>1.0.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>updatesite-xsp</artifactId>
-    <name>Langchain4j Domino - Distribution ZIP</name>
+    <name>Langchain4j Domino - XSP Update Site</name>
     <packaging>pom</packaging>
 
     <build>
@@ -70,33 +70,6 @@
                     </execution>
                 </executions>
                 <groupId>org.darwino</groupId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptors>
-                        <descriptor>assembly.xml</descriptor>
-                    </descriptors>
-                    <finalName>domino-langchain4j-${project.version}</finalName>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-                <groupId>org.apache.maven.plugins</groupId>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <configuration>
-                    <basedir>../../</basedir>
-                </configuration>
             </plugin>
         </plugins>
     </build>
