@@ -62,15 +62,15 @@ class MetadataDefinitionTest {
 
         Assertions.assertEquals("i", fields.get(2).fieldName());
         Assertions.assertEquals("i", fields.get(2).formula());
-        Assertions.assertEquals(int.class, fields.get(2).fieldType());
+        Assertions.assertEquals(Integer.class, fields.get(2).fieldType());
 
         Assertions.assertEquals("l", fields.get(3).fieldName());
         Assertions.assertEquals("@L", fields.get(3).formula());
-        Assertions.assertEquals(long.class, fields.get(3).fieldType());
+        Assertions.assertEquals(Long.class, fields.get(3).fieldType());
 
         Assertions.assertEquals("d", fields.get(4).fieldName());
         Assertions.assertEquals("d", fields.get(4).formula());
-        Assertions.assertEquals(double.class, fields.get(4).fieldType());
+        Assertions.assertEquals(Double.class, fields.get(4).fieldType());
 
         Assertions.assertEquals("tm", fields.get(5).fieldName());
         Assertions.assertEquals("@TM", fields.get(5).formula());
