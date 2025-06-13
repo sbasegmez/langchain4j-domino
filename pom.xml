@@ -5,7 +5,7 @@
 
     <groupId>org.openntf.langchain4j-domino</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>LangChain4j for Domino - Parent</name>
