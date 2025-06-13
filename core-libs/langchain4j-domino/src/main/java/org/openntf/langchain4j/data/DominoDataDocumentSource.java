@@ -34,27 +34,54 @@ import org.openntf.utils.TypeUtils;
 
 /**
  * A {@link DocumentSource} implementation that extracts text from a Domino document's fields.
- * This class is used to create a document source from a Domino document, allowing for the extraction of text from specific fields.
- * It is particularly useful for handling documents with rich text or MIME content.
- *
+ * It is designed to handle documents containing rich text or MIME content by reading specified fields from the Domino document.
+ * It can concatenate multiple fields to create a Langchain4j document representation.
+ * <p>
  * You can use {@link Builder} to create an instance of this class.
+ * <p>
+ * This is just to access single Domino document. The common use case is to use {@link DominoDocumentLoader}
+ * which will use this class as needed.
  */
 public class DominoDataDocumentSource extends AbstractDominoDocumentSource {
 
     private final Set<String> fieldNames;
 
+    /**
+     * Creates a new DominoDataDocumentSource from a Domino document and a single field.
+     * Uses a default {@link MetadataDefinition} instance.
+     * @param document the Domino document to extract text from.
+     * @param fieldName the name of the field to extract text from.
+     */
     public DominoDataDocumentSource(Document document, String fieldName) {
         this(document, Set.of(fieldName));
     }
 
+    /**
+     * Creates a new DominoDataDocumentSource from a Domino document and a collection of fields.
+     * Uses a default {@link MetadataDefinition} instance.
+     * @param document the Domino document to extract text from.
+     * @param fieldNames the collection of field names to extract text from.
+     */
     public DominoDataDocumentSource(Document document, Set<String> fieldNames) {
         this(document, MetadataDefinition.DEFAULT, fieldNames);
     }
 
+    /**
+     * Creates a new DominoDataDocumentSource from a Domino document, Metadata definition and a single field.
+     * @param document the Domino document to extract text from.
+     * @param metadataDefinition the Metadata definition to use.
+     * @param fieldName the name of the field to extract text from.
+     */
     public DominoDataDocumentSource(Document document, MetadataDefinition metadataDefinition, String fieldName) {
         this(document, metadataDefinition, Set.of(fieldName));
     }
 
+    /**
+     * Creates a new DominoDataDocumentSource from a Domino document, Metadata definition and a collection of fields.
+     * @param document the Domino document to extract text from.
+     * @param metadataDefinition the Metadata definition to use.
+     * @param fieldNames the collection of field names to extract text from.
+     */
     public DominoDataDocumentSource(Document document, MetadataDefinition metadataDefinition, Set<String> fieldNames) {
         super(document, metadataDefinition);
 
@@ -131,11 +158,21 @@ public class DominoDataDocumentSource extends AbstractDominoDocumentSource {
             this.fieldNames = new LinkedHashSet<>();
         }
 
+        /**
+         * Adds a field name to the list of fields to extract text from.
+         * @param fieldName the name of the field to extract text from.
+         * @return this builder instance, for method chaining.
+         */
         public Builder fieldName(String fieldName) {
             this.fieldNames.add(fieldName);
             return this;
         }
 
+        /**
+         * Adds a collection of field names to the list of fields to extract text from.
+         * @param fieldNames the collection of field names to extract text from.
+         * @return this builder instance, for method chaining.
+         */
         public Builder fieldNames(Collection<String> fieldNames) {
             this.fieldNames.addAll(fieldNames);
             return this;

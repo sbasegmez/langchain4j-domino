@@ -22,8 +22,15 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * This class facilitates easy creation of metadata definitions for domino documents.
- * Each Field
+ * This class is used to extract custom metadata information from a Notes Document.
+ * Metadata is useful in the document representation of Langchain4j and they are recorded into the embedding store during
+ * the ingestion process. Langchain4j for Domino ships a default metadata definition with a similar content to the Domino Rest Api
+ * `@meta` object.
+ * <p>
+ * The default metadata has `form`, `noteid`, `unid`, `created`, `addedtofile`, `lastmodified`,
+ * `lastmodifiedinfile`, `lastaccessed` and `size` fields.
+ * <p>
+ * You can create your own metadata definition using {@link Builder}. You can also use {@link #DEFAULT} as a starting point.
  */
 public class MetadataDefinition {
 
@@ -59,14 +66,27 @@ public class MetadataDefinition {
         fields.put(metaField.fieldName(), metaField);
     }
 
+    /**
+     * Creates a Builder object.
+     * @return a new builder.
+     */
     public static Builder builder() {
         return new Builder();
     }
 
+    /**
+     * Create a new builder object but start with an existing MetadataDefinition.
+     * @param basedOn base MetadataDefinition.
+     * @return a new builder.
+     */
     public static Builder builder(MetadataDefinition basedOn) {
         return new Builder(basedOn);
     }
 
+    /**
+     * Runs a lambda for each field in the metadata definition.
+     * @param consumer the lambda
+     */
     public void forEachField(Consumer<MetaField> consumer) {
         fields.values().forEach(consumer);
     }
@@ -88,64 +108,122 @@ public class MetadataDefinition {
             return instance;
         }
 
+        /**
+         * Add a new field to the metadata definition.
+         * @param fieldName the metadata field name
+         * @param formula the formula to evaluate
+         * @param fieldType the field type. Currently only String, Integer, Long, Double, and Temporal are supported
+         * @return the builder
+         */
         private Builder addField(String fieldName, String formula, Class<?> fieldType) {
             instance.addField(new MetaField(fieldName, formula, fieldType));
             return this;
         }
 
+        /**
+         * Add a new field to the metadata definition. The formula will evaluate automatically to the field name.
+         * @param fieldName the metadata field name, will be used as the formula
+         * @param fieldType the field type. Currently only String, Integer, Long, Double, and Temporal are supported
+         * @return the builder
+         */
         private Builder addField(String fieldName, Class<?> fieldType) {
             instance.addField(new MetaField(fieldName, fieldType));
             return this;
         }
-        // Add a field with type String
 
+        /**
+         * Add a field with type String. The formula will evaluate automatically to the field name
+         * @param fieldName the metadata field name
+         * @return the builder
+         */
         public Builder addString(String fieldName) {
             return addField(fieldName, String.class);
         }
-        // Add a field with type String and a formula
 
+        /**
+         * Add a field with type String and a formula
+         * @param fieldName the metadata field name
+         * @param formula the formula
+         * @return the builder
+         */
         public Builder addString(String fieldName, String formula) {
             return addField(fieldName, formula, String.class);
         }
-        // Add a field with type int
 
+        /**
+         * Add a field with type int. The formula will evaluate automatically to the field name
+         * @param fieldName the metadata field name
+         * @return the builder
+         */
         public Builder addInteger(String fieldName) {
             return addField(fieldName, Integer.class);
         }
-        // Add a field with type int and a formula
 
+        /**
+         * Add a field with type int and a formula
+         * @param fieldName the metadata field name
+         * @param formula the formula
+         * @return the builder
+         */
         public Builder addInteger(String fieldName, String formula) {
             return addField(fieldName, formula, Integer.class);
         }
-        // Add a field with type long
 
+        /**
+         * Add a field with type long, the formula will evaluate automatically to the field name
+         * @param fieldName the metadata field name
+         * @return the builder
+         */
         public Builder addLong(String fieldName) {
             return addField(fieldName, Long.class);
         }
-        // Add a field with type long and a formula
 
+        /**
+         * Add a field with type long and a formula
+         * @param fieldName the metadata field name
+         * @param formula the formula
+         * @return the builder
+         */
         public Builder addLong(String fieldName, String formula) {
             return addField(fieldName, formula, Long.class);
         }
-        // Add a field with type double
 
+        /**
+         * Add a field with type double, the formula will evaluate automatically to the field name
+         * @param fieldName the metadata field name
+         * @return the builder
+         */
         public Builder addDouble(String fieldName) {
             return addField(fieldName, Double.class);
         }
-        // Add a field with type double and a formula
 
+        /**
+         * Add a field with type double and a formula
+         * @param fieldName the metadata field name
+         * @param formula the formula
+         * @return the builder
+         */
         public Builder addDouble(String fieldName, String formula) {
             return addField(fieldName, formula, Double.class);
         }
-        // Add a field with type Temporal (Datetime)
-        // Langchain4j doesn't support Temporal as a metadata type yet, but we can live with Long
 
+        /**
+         * Add a field with type Temporal (Datetime). The formula will evaluate automatically to the field name
+         * Langchain4j doesn't support Temporal as a metadata type yet, but we can live with a JSON date string
+         * @param fieldName the metadata field name
+         * @return the builder
+         */
         public Builder addTemporal(String fieldName) {
             return addField(fieldName, Temporal.class);
         }
-        // Add a field with type Temporal (Datetime) and a formula
-        // Langchain4j doesn't support Temporal as a metadata type yet, but we can live with Long
 
+        /**
+         * Add a field with type Temporal (Datetime) and a formula.
+         * Langchain4j doesn't support Temporal as a metadata type yet, but we can live with a JSON date string
+         * @param fieldName the metadata field name
+         * @param formula the formula
+         * @return the builder
+         */
         public Builder addTemporal(String fieldName, String formula) {
             return addField(fieldName, formula, Temporal.class);
         }

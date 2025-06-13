@@ -32,14 +32,32 @@ public class TypeUtils {
             return value == null || value.isEmpty();
         }
 
+        /**
+         * Checks if a string is not null and not empty.
+         *
+         * @param value the string to check
+         * @return true if the string is not null and not empty
+         */
         public static boolean isNotEmpty(String value) {
             return !isEmpty(value);
         }
 
+        /**
+         * Checks if a collection is null or empty.
+         *
+         * @param collection the collection to check
+         * @return true if the collection is null or empty
+         */
         public static boolean isEmpty(Collection<?> collection) {
             return collection == null || collection.isEmpty();
         }
 
+        /**
+         * Checks if a collection is not null and not empty.
+         *
+         * @param collection the collection to check
+         * @return true if the collection is not null and not empty
+         */
         public static boolean isNotEmpty(Collection<?> collection) {
             return !isEmpty(collection);
         }
