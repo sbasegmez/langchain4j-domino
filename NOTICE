@@ -10,8 +10,53 @@ This product is licensed under the terms of the Apache 2.0 license.
 The project contains the following third-party code:
 
 - Snippets taken from the NSF File Server project, which is copyright OpenNTF Alliance, licensed under the Apache 2.0 license, and available from https://github.com/IKSG/nsf-file-server
+- Snippets taken from the Domino JNX Project, which is copyright HCL America, licensed under the Apache 2.0 license, and available from https://github.com/HCL-TECH-SOFTWARE/domino-jnx
 
 The binary distribution contains the following third-party code:
 
-- langchain4j, licensed under the Apache 2.0 license, and available from https://github.com/langchain4j/langchain4j
-- Domino JNX, which is copyright HCL America, licensed under the Apache 2.0 license, and available from https://github.com/HCL-TECH-SOFTWARE/domino-jnx
+- Domino JNX, which is copyright HCL America, licensed under the Apache 2.0 license, and available from github.com/HCL-TECH-SOFTWARE/domino-jnx
+- The Eclipse Angus Activation implementation, available from github.com/eclipse-ee4j/angus-activation and licensed under the EPL 2.0
+- The Eclipse Angus Mail implementation, available from github.com/eclipse-ee4j/angus-mail and licensed under the Eclipse Public License 2.0
+- The Jakarta Activation API, available from github.com/jakartaee/jaf-api and licensed under the EPL 2.0
+- The Jakarta Mail API, available from github.com/jakartaee/mail-api and licensed under the Eclipse Public License 2.0
+
+- Langcchain4j, licensed under the Apache 2.0 license, and available from github.com/langchain4j/langchain4j
+- Checker Framework Qual – licensed under the MIT License, available from the Checker Framework project (checkerframework.org).
+- Apache Commons Codec – licensed under the Apache License 2.0, available from the Apache Commons Codec project (commons.apache.org).
+- Apache Commons Collections – licensed under the Apache License 2.0, available from the Apache Commons Collections project (commons.apache.org).
+- Apache Commons Compress – licensed under the Apache License 2.0, available from the Apache Commons Compress project (commons.apache.org).
+- Apache Commons IO – licensed under the Apache License 2.0, available from the Apache Commons IO project (commons.apache.org).
+- Apache Commons Lang – licensed under the Apache License 2.0, available from the Apache Commons Lang project (commons.apache.org).
+- Apache Commons Logging – licensed under the Apache License 2.0, available from the Apache Commons Logging project (commons.apache.org).
+- Apache Commons Math – licensed under the Apache License 2.0, available from the Apache Commons Math project (commons.apache.org).
+- Apache Commons Pool – licensed under the Apache License 2.0, available from the Apache Commons Pool project (commons.apache.org).
+- Apache Commons Text – licensed under the Apache License 2.0, available from the Apache Commons Text project (commons.apache.org).
+- ConcurrentLinkedHashMap LRU – licensed under the Apache License 2.0 ￼, available from the ConcurrentLinkedHashMap project (github.com/ben-manes/concurrentlinkedhashmap).
+- JetBrains Java Annotations – licensed under the Apache License 2.0, available from the JetBrains open-source repository (github.com/JetBrains/java-annotations).
+- Retrofit – licensed under the Apache License 2.0, available from Square’s Retrofit project (github.com/square/retrofit).
+- CurvesAPI – licensed under the BSD 3-Clause license ￼, available from the CurvesAPI project (github.com/virtuald/curvesapi).
+- Error Prone Annotations – licensed under the Apache License 2.0, available from the Error Prone project (errorprone.info).
+- Google Guava, ListenableFuture, and FailureAccess (com.google.guava:guava:32.0.1-android) – licensed under the Apache License 2.0, available from the Google Guava project (github.com/google/guava).
+- Apache PDFBox – licensed under the Apache License 2.0, available from the Apache PDFBox project (pdfbox.apache.org).
+- Apache POI – licensed under the Apache License 2.0, available from the Apache POI project (poi.apache.org).
+- gRPC API/Core/Netty/Protobuf/ProtobufLite/Stub – licensed under the Apache License 2.0, available from the gRPC Java project (grpc.io).
+- Google Gson – licensed under the Apache License 2.0, available from the Google Gson project (github.com/google/gson).
+- J2ObjC Annotations – licensed under the Apache License 2.0, available from Google’s J2ObjC project (github.com/google/j2objc).
+- FasterXML Jackson Core/Annotations/Databind – licensed under the Apache License 2.0, available from the Jackson (FasterXML) project (github.com/FasterXML/jackson).
+- JNA – Java Native Access – dual-licensed under the Apache License 2.0 or LGPL 2.1 , available from the JNA project (github.com/java-native-access/jna).
+- jsoup HTML Parser – licensed under the MIT License ￼, available from the jsoup project (jsoup.org).
+- JSpecify Annotations – licensed under the Apache License 2.0, available from the JSpecify project (github.com/jspecify/jspecify).
+- FindBugs JSR-305 Annotations – licensed under the New BSD License, available from code.google.com/archive/p/jsr-305/
+- JTokkit – licensed under the MIT License ￼, available from the JTokkit project (GitHub knuddelsgmbh/jtokkit).
+- Kotlin Standard Library – licensed under the Apache License 2.0, available from the Kotlin project (kotlinlang.org).
+- Apache Log4j 2 API – licensed under the Apache License 2.0, available from the Apache Log4j project (logging.apache.org/log4j/2.x).
+- Metadata Extractor – licensed under the Apache License 2.0, available from the Metadata Extractor project (github.com/drewnoakes/metadata-extractor).
+- Milvus Java SDK – licensed under the Apache License 2.0, available from the Milvus project (github.com/milvus-io/milvus-sdk-java).
+- OkHttp HTTP Client – licensed under the Apache License 2.0, available from Square’s OkHttp project (square.github.io/okhttp).
+- Okio Library – licensed under the Apache License 2.0 (Square) ￼, available from Square’s Okio project (square.github.io/okio).
+- Apache OpenNLP Tools – licensed under the Apache License 2.0, available from the Apache OpenNLP project (opennlp.apache.org).
+- Google API Common Protos – licensed under the Apache License 2.0, available from Google APIs (github.com/googleapis/api-common-protos).
+- Google Protocol Buffers – Java – licensed under the BSD 3-Clause license, available from the Protocol Buffers project (github.com/protocolbuffers/protobuf).
+- SLF4J API – licensed under the MIT License ￼, available from the SLF4J project (slf4j.org).
+- SparseBitSet – licensed under the Apache License 2.0, available from the SparseBitSet project (github.com/brettwooldridge/SparseBitSet).
+- Apache XMLBeans – licensed under the Apache License 2.0, available from the Apache XMLBeans project (xmlbeans.apache.org).
